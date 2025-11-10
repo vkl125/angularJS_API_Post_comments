@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PostService } from '../../services/post.service';
-import { Post, Comment, PostsResponse } from '../../models/post.model';
+import { Post, Comment } from '../../models/post.model';
 
 @Component({
   selector: 'app-post-list',
@@ -8,7 +8,7 @@ import { Post, Comment, PostsResponse } from '../../models/post.model';
   styleUrls: ['./post-list.component.css']
 })
 export class PostListComponent implements OnInit {
-  postsResponse: PostsResponse | null = null;
+  postsResponse: { posts: Post[], totalPages: number, totalCount: number } | null = null;
   loading = false;
   error: string | null = null;
   currentPage = 1;
