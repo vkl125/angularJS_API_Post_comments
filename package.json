@@ -1,0 +1,17 @@
+{
+  "name": "angularjs-posts-app",
+  "version": "1.0.0",
+  "description": "AngularJS app with JSON server for posts and comments",
+  "main": "index.html",
+  "scripts": {
+    "start": "json-server --watch db.json --port 3000",
+    "dev": "start http://localhost:3000 && json-server --watch db.json --port 3000",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["angularjs", "json-server", "posts", "comments"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "json-server": "^0.17.4"
+  }
+}
