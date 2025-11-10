@@ -1,0 +1,94 @@
+<div class="container">
+  <header class="header">
+    <h1>Posts & Comments</h1>
+    <p class="subtitle">A modern Angular application with pagination</p>
+  </header>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading posts...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !isLoading" class="error-container">
+    <div class="error-icon">⚠️</div>
+    <h3>Error Loading Data</h3>
+    <p>{{ error }}</p>
+    <button class="retry-btn" (click)="loadPosts(pagination.currentPage)">
+      Try Again
+    </button>
+  </div>
+
+  <!-- Main Content -->
+  <div *ngIf="!isLoading && !error">
+    <!-- Pagination Info -->
+    <div class="pagination-info">
+      <p>
+        Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ pagination.totalItems }} posts
+      </p>
+    </div>
+
+    <!-- Posts List -->
+    <div class="posts-container">
+      <div *ngFor="let post of posts" class="post-card">
+        <div class="post-header">
+          <h2 class="post-title">{{ post.title }}</h2>
+          <span class="post-meta">Post #{{ post.id }} • User {{ post.userId }}</span>
+        </div>
+        
+        <div class="post-body">
+          <p>{{ post.body }}</p>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="comments-section">
+          <h3 class="comments-title">
+            Comments ({{ post.comments.length }})
+          </h3>
+          
+          <div *ngIf="post.comments.length === 0" class="no-comments">
+            <p>No comments yet</p>
+          </div>
+
+          <div *ngFor="let comment of post.comments" class="comment-card">
+            <div class="comment-header">
+              <strong class="comment-author">{{ comment.name }}</strong>
+              <span class="comment-email">{{ comment.email }}</span>
+            </div>
+            <p class="comment-body">{{ comment.body }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="pagination-controls">
+      <button 
+        class="pagination-btn"
+        [class.disabled]="pagination.currentPage === 1"
+        (click)="goToPage(pagination.currentPage - 1)"
+        [disabled]="pagination.currentPage === 1">
+        Previous
+      </button>
+
+      <div class="page-numbers">
+        <button
+          *ngFor="let page of getPageNumbers()"
+          class="page-btn"
+          [class.active]="page === pagination.currentPage"
+          (click)="goToPage(page)">
+          {{ page }}
+        </button>
+      </div>
+
+      <button 
+        class="pagination-btn"
+        [class.disabled]="pagination.currentPage === pagination.totalPages"
+        (click)="goToPage(pagination.currentPage + 1)"
+        [disabled]="pagination.currentPage === pagination.totalPages">
+        Next
+      </button>
+    </div>
+  </div>
+</div>

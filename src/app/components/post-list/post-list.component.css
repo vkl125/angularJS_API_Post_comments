@@ -1,0 +1,23 @@
+.comment {
+  border-left: 4px solid #007bff;
+  transition: all 0.2s ease;
+}
+
+.comment:hover {
+  border-left-color: #0056b3;
+  background-color: #f8f9fa !important;
+}
+
+.post-card {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border: none;
+}
+
+.post-card:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.comment-section {
+  border-top: 1px solid #e9ecef;
+  padding-top: 15px;
+}
