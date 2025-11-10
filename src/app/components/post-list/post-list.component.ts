@@ -1,20 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { PostService } from '../../services/post.service';
-import { Post, Comment } from '../../models/post.model';
-
+import { DataService } from '../../services/data.service';
+import { PostWithComments, Comment } from '../../models/post.model';
+import { CommonModule } from '@angular/common'; 
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',
-  styleUrls: ['./post-list.component.css']
+  styleUrls: ['./post-list.component.css'],
+  standalone: true,
+  imports: [CommonModule]
 })
 export class PostListComponent implements OnInit {
-  postsResponse: { posts: Post[], totalPages: number, totalCount: number } | null = null;
+  postsResponse: { posts: PostWithComments[], totalPages: number, totalCount: number } | null = null;
   loading = false;
   error: string | null = null;
   currentPage = 1;
   postsPerPage = 20;
 
-  constructor(private postService: PostService) { }
+  constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
     this.loadPosts();
@@ -24,17 +26,17 @@ export class PostListComponent implements OnInit {
     this.loading = true;
     this.error = null;
 
-    this.postService.getPostsWithComments(this.currentPage, this.postsPerPage)
+    this.dataService.getPostsWithComments(this.currentPage, this.postsPerPage)
       .subscribe({
-        next: (response) => {
+        next: (response: any) => {
           // Initialize commentsCollapsed property for each post
-          response.posts.forEach(post => {
+          response.posts.forEach((post: PostWithComments) => {
             post.commentsCollapsed = true; // Start with comments collapsed
           });
           this.postsResponse = response;
           this.loading = false;
         },
-        error: (error) => {
+        error: (error: any) => {
           this.error = 'Failed to load posts. Please try again later.';
           this.loading = false;
           console.error('Error loading posts:', error);
@@ -76,11 +78,11 @@ export class PostListComponent implements OnInit {
     return Math.min(this.currentPage * this.postsPerPage, this.postsResponse.totalCount);
   }
 
-  toggleComments(post: Post): void {
+  toggleComments(post: PostWithComments): void {
     post.commentsCollapsed = !post.commentsCollapsed;
   }
 
-  isCommentsOpen(post: Post): boolean {
+  isCommentsOpen(post: PostWithComments): boolean {
     return !post.commentsCollapsed;
   }
 }
