@@ -4,6 +4,7 @@ export interface Post {
   body: string;
   userId: number;
   commentsCollapsed?: boolean;
+  comments: Comment[];
 }
 
 export interface Comment {

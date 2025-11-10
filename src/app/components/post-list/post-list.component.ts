@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
-import { PostWithComments, Comment } from '../../models/post.model';
-import { CommonModule } from '@angular/common'; 
+import { Comment, Post, PaginationInfo } from '../../models/post.model';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',
@@ -10,9 +10,15 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule]
 })
 export class PostListComponent implements OnInit {
-  postsResponse: { posts: PostWithComments[], totalPages: number, totalCount: number } | null = null;
+  postsResponse: { posts: Post[], totalPages: number, pagination: PaginationInfo } | null = null;
   loading = false;
   error: string | null = null;
+  pagination: PaginationInfo = {
+    currentPage: 1,
+    pageSize: 20,
+    totalItems: 0,
+    totalPages: 0
+  };
   currentPage = 1;
   postsPerPage = 20;
 
@@ -30,7 +36,7 @@ export class PostListComponent implements OnInit {
       .subscribe({
         next: (response: any) => {
           // Initialize commentsCollapsed property for each post
-          response.posts.forEach((post: PostWithComments) => {
+          response.posts.forEach((post: Post) => {
             post.commentsCollapsed = true; // Start with comments collapsed
           });
           this.postsResponse = response;
@@ -45,7 +51,7 @@ export class PostListComponent implements OnInit {
   }
 
   goToPage(page: number): void {
-    if (page >= 1 && page <= (this.postsResponse?.totalPages || 1)) {
+    if (page >= 1 && page <= (this.postsResponse?.pagination?.totalPages || 1)) {
       this.currentPage = page;
       this.loadPosts();
     }
@@ -53,19 +59,19 @@ export class PostListComponent implements OnInit {
 
   getPageNumbers(): number[] {
     if (!this.postsResponse) return [];
-    
-    const totalPages = this.postsResponse.totalPages;
+
+    const totalPages = this.postsResponse?.pagination?.totalPages;
     const currentPage = this.currentPage;
     const pages: number[] = [];
-    
+
     // Show up to 5 page numbers around current page
     const startPage = Math.max(1, currentPage - 2);
     const endPage = Math.min(totalPages, currentPage + 2);
-    
+
     for (let i = startPage; i <= endPage; i++) {
       pages.push(i);
     }
-    
+
     return pages;
   }
 
@@ -73,16 +79,22 @@ export class PostListComponent implements OnInit {
     return post.comments && post.comments.length > 0;
   }
 
-  getEndIndex(): number {
-    if (!this.postsResponse) return 0;
-    return Math.min(this.currentPage * this.postsPerPage, this.postsResponse.totalCount);
+  getStartIndex(): number {
+    return (this.currentPage - 1) * this.postsPerPage + 1;
   }
 
-  toggleComments(post: PostWithComments): void {
+
+  getEndIndex(): number {
+    if (!this.postsResponse) return 0;
+    //return Math.min(this.currentPage * this.postsPerPage, this.postsResponse.pagination?.totalItems);
+    return this.currentPage * this.postsPerPage;
+  }
+
+toggleComments(post: Post): void {
     post.commentsCollapsed = !post.commentsCollapsed;
   }
 
-  isCommentsOpen(post: PostWithComments): boolean {
+  isCommentsOpen(post: Post): boolean {
     return !post.commentsCollapsed;
   }
 }
