@@ -27,6 +27,10 @@ export class PostListComponent implements OnInit {
     this.postService.getPostsWithComments(this.currentPage, this.postsPerPage)
       .subscribe({
         next: (response) => {
+          // Initialize commentsCollapsed property for each post
+          response.posts.forEach(post => {
+            post.commentsCollapsed = true; // Start with comments collapsed
+          });
           this.postsResponse = response;
           this.loading = false;
         },
@@ -70,5 +74,13 @@ export class PostListComponent implements OnInit {
   getEndIndex(): number {
     if (!this.postsResponse) return 0;
     return Math.min(this.currentPage * this.postsPerPage, this.postsResponse.totalCount);
+  }
+
+  toggleComments(post: Post): void {
+    post.commentsCollapsed = !post.commentsCollapsed;
+  }
+
+  isCommentsOpen(post: Post): boolean {
+    return !post.commentsCollapsed;
   }
 }

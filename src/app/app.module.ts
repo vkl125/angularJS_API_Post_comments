@@ -1,18 +1,20 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
- import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { NgbModule, NgbCollapseModule, NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
+import { PostListComponent } from './components/post-list/post-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NgbModule,
+    PostListComponent
   ],
   imports: [
     BrowserModule,
-    NgbModule
+    NgbModule,
+    NgbCollapseModule,
+    NgbAccordionModule
   ],
   providers: [],
   bootstrap: [AppComponent]
