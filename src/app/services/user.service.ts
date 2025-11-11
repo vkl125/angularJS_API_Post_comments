@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
 
 export interface User {
   id: number;
@@ -23,33 +23,37 @@ export class UserService {
     });
   }
 
-  setCurrentUser(user: User): void {
+  async setCurrentUser(user: User): Promise<void> {
+    // Simulate async operation
+    await new Promise(resolve => setTimeout(resolve, 0));
     this.currentUserSubject.next(user);
   }
 
-  getCurrentUser(): User | null {
-    return this.currentUserSubject.value;
+  async getCurrentUser(): Promise<User | null> {
+    // Convert observable to promise for async/await usage
+    return firstValueFrom(this.currentUser$);
   }
 
-  isCurrentUserPostOwner(postUserId: number): boolean {
-    const currentUser = this.getCurrentUser();
+  async isCurrentUserPostOwner(postUserId: number): Promise<boolean> {
+    const currentUser = await this.getCurrentUser();
     return currentUser ? currentUser.id === postUserId : false;
   }
 
-  canEditPost(postUserId: number): boolean {
-    return this.isCurrentUserPostOwner(postUserId);
+  async canEditPost(postUserId: number): Promise<boolean> {
+    return await this.isCurrentUserPostOwner(postUserId);
   }
 
-  canDeletePost(postUserId: number): boolean {
-    return this.isCurrentUserPostOwner(postUserId);
+  async canDeletePost(postUserId: number): Promise<boolean> {
+    return await this.isCurrentUserPostOwner(postUserId);
   }
 
-  canAddPost(): boolean {
-    return this.getCurrentUser() !== null;
+  async canAddPost(): Promise<boolean> {
+    const currentUser = await this.getCurrentUser();
+    return currentUser !== null;
   }
 
-  canDeleteComment(commentEmail: string, commentUserId?: number): boolean {
-    const currentUser = this.getCurrentUser();
+  async canDeleteComment(commentEmail: string, commentUserId?: number): Promise<boolean> {
+    const currentUser = await this.getCurrentUser();
     if (!currentUser) return false;
     
     // Check by email (current implementation) or by userId if available

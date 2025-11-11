@@ -12,7 +12,7 @@ import { PostCommentsComponent } from '../post-comments/post-comments.component'
   imports: [CommonModule, PostCommentsComponent]
 })
 export class PostListComponent implements OnInit {
-  postsResponse: { posts: Post[], totalPages: number, pagination: PaginationInfo } | null = null;
+  postsResponse: { posts: Post[], pagination: PaginationInfo } | null = null;
   loading = false;
   error: string | null = null;
   pagination: PaginationInfo = {
@@ -30,37 +30,38 @@ export class PostListComponent implements OnInit {
     private userService: UserService
   ) { }
 
-  ngOnInit(): void {
-    this.loadCurrentUser();
-    this.loadPosts();
+  async ngOnInit(): Promise<void> {
+    await this.loadCurrentUser();
+    await this.loadPosts();
   }
 
-  loadCurrentUser(): void {
-    this.userService.currentUser$.subscribe(user => {
-      this.currentUser = user;
-    });
+  async loadCurrentUser(): Promise<void> {
+    try {
+      this.currentUser = await this.userService.getCurrentUser();
+    } catch (error) {
+      console.error('Error loading current user:', error);
+      this.currentUser = null;
+    }
   }
 
-  loadPosts(): void {
+  async loadPosts(): Promise<void> {
     this.loading = true;
     this.error = null;
 
-    this.dataService.getPostsWithComments(this.currentPage, this.postsPerPage)
-      .subscribe({
-        next: (response: any) => {
-          // Initialize commentsCollapsed property for each post
-          response.posts.forEach((post: Post) => {
-            post.commentsCollapsed = true; // Start with comments collapsed
-          });
-          this.postsResponse = response;
-          this.loading = false;
-        },
-        error: (error: any) => {
-          this.error = 'Failed to load posts. Please try again later.';
-          this.loading = false;
-          console.error('Error loading posts:', error);
-        }
+    try {
+      const response = await this.dataService.getPostsWithCommentsAsync(this.currentPage, this.postsPerPage);
+      
+      // Initialize commentsCollapsed property for each post
+      response.posts.forEach((post: Post) => {
+        post.commentsCollapsed = true; // Start with comments collapsed
       });
+      this.postsResponse = response;
+      this.loading = false;
+    } catch (error: any) {
+      this.error = 'Failed to load posts. Please try again later.';
+      this.loading = false;
+      console.error('Error loading posts:', error);
+    }
   }
 
   goToPage(page: number): void {
@@ -136,137 +137,128 @@ toggleComments(post: Post): void {
   }
 
   // CRUD Operations
-  addNewPost(): void {
-    if (!this.userService.canAddPost()) {
-      alert('You must be logged in to create a post.');
-      return;
-    }
-
-    const currentUser = this.userService.getCurrentUser();
-    if (!currentUser) {
-      alert('You must be logged in to create a post.');
-      return;
-    }
-
-    const newPost = {
-      title: 'New Post Title',
-      body: 'New post content...',
-      userId: currentUser.id
-    };
-
-    this.dataService.createPost(newPost).subscribe({
-      next: (createdPost) => {
-        console.log('Post created:', createdPost);
-        this.loadPosts(); // Reload to show the new post
-      },
-      error: (error) => {
-        console.error('Error creating post:', error);
-        alert('Failed to create post. Please try again.');
+  async addNewPost(): Promise<void> {
+    try {
+      const canAdd = await this.userService.canAddPost();
+      if (!canAdd) {
+        alert('You must be logged in to create a post.');
+        return;
       }
-    });
-  }
 
-  editPost(post: Post): void {
-    if (!this.userService.canEditPost(post.userId)) {
-      alert('You can only edit your own posts.');
-      return;
-    }
+      const currentUser = await this.userService.getCurrentUser();
+      if (!currentUser) {
+        alert('You must be logged in to create a post.');
+        return;
+      }
 
-    const updatedPost = {
-      ...post,
-      title: prompt('Enter new title:', post.title) || post.title,
-      body: prompt('Enter new content:', post.body) || post.body
-    };
+      const newPost = {
+        title: 'New Post Title',
+        body: 'New post content...',
+        userId: currentUser.id
+      };
 
-    if (post.id) {
-      this.dataService.updatePost(post.id, updatedPost).subscribe({
-        next: (result) => {
-          console.log('Post updated:', result);
-          this.loadPosts(); // Reload to show updated post
-        },
-        error: (error) => {
-          console.error('Error updating post:', error);
-          alert('Failed to update post. Please try again.');
-        }
-      });
+      const createdPost = await this.dataService.createPostAsync(newPost);
+      console.log('Post created:', createdPost);
+      await this.loadPosts(); // Reload to show the new post
+    } catch (error) {
+      console.error('Error creating post:', error);
+      alert('Failed to create post. Please try again.');
     }
   }
 
-  deletePost(post: Post): void {
-    if (!this.userService.canDeletePost(post.userId)) {
-      alert('You can only delete your own posts.');
-      return;
-    }
+  async editPost(post: Post): Promise<void> {
+    try {
+      const canEdit = await this.userService.canEditPost(post.userId);
+      if (!canEdit) {
+        alert('You can only edit your own posts.');
+        return;
+      }
 
-    if (confirm(`Are you sure you want to delete "${post.title}"?`)) {
+      const updatedPost = {
+        ...post,
+        title: prompt('Enter new title:', post.title) || post.title,
+        body: prompt('Enter new content:', post.body) || post.body
+      };
+
       if (post.id) {
-        this.dataService.deletePost(post.id).subscribe({
-          next: () => {
-            console.log('Post deleted:', post.id);
-            this.loadPosts(); // Reload to remove the deleted post
-          },
-          error: (error) => {
-            console.error('Error deleting post:', error);
-            alert('Failed to delete post. Please try again.');
-          }
-        });
+        const result = await this.dataService.updatePostAsync(post.id, updatedPost);
+        console.log('Post updated:', result);
+        await this.loadPosts(); // Reload to show updated post
       }
+    } catch (error) {
+      console.error('Error updating post:', error);
+      alert('Failed to update post. Please try again.');
+    }
+  }
+
+  async deletePost(post: Post): Promise<void> {
+    try {
+      const canDelete = await this.userService.canDeletePost(post.userId);
+      if (!canDelete) {
+        alert('You can only delete your own posts.');
+        return;
+      }
+
+      if (confirm(`Are you sure you want to delete "${post.title}"?`)) {
+        if (post.id) {
+          await this.dataService.deletePostAsync(post.id);
+          console.log('Post deleted:', post.id);
+          await this.loadPosts(); // Reload to remove the deleted post
+        }
+      }
+    } catch (error) {
+      console.error('Error deleting post:', error);
+      alert('Failed to delete post. Please try again.');
     }
   }
 
   // Comment Event Handlers
-  onCommentAdded(comment: Comment): void {
-    this.dataService.createComment(comment).subscribe({
-      next: (createdComment) => {
-        console.log('Comment created:', createdComment);
-        this.loadPosts(); // Reload to show the new comment
-      },
-      error: (error) => {
-        console.error('Error creating comment:', error);
-        alert('Failed to create comment. Please try again.');
-      }
-    });
-  }
-
-  onCommentUpdated(comment: Comment): void {
-    if (comment.id) {
-      this.dataService.updateComment(comment.id, comment).subscribe({
-        next: (updatedComment) => {
-          console.log('Comment updated:', updatedComment);
-          this.loadPosts(); // Reload to show updated comment
-        },
-        error: (error) => {
-          console.error('Error updating comment:', error);
-          alert('Failed to update comment. Please try again.');
-        }
-      });
+  async onCommentAdded(comment: Comment): Promise<void> {
+    try {
+      const createdComment = await this.dataService.createCommentAsync(comment);
+      console.log('Comment created:', createdComment);
+      await this.loadPosts(); // Reload to show the new comment
+    } catch (error) {
+      console.error('Error creating comment:', error);
+      alert('Failed to create comment. Please try again.');
     }
   }
 
-  onCommentDeleted(commentId: number): void {
-    this.dataService.deleteComment(commentId).subscribe({
-      next: () => {
-        console.log('Comment deleted:', commentId);
-        this.loadPosts(); // Reload to remove the deleted comment
-      },
-      error: (error) => {
-        console.error('Error deleting comment:', error);
-        alert('Failed to delete comment. Please try again.');
+  async onCommentUpdated(comment: Comment): Promise<void> {
+    try {
+      if (comment.id) {
+        const updatedComment = await this.dataService.updateCommentAsync(comment.id, comment);
+        console.log('Comment updated:', updatedComment);
+        await this.loadPosts(); // Reload to show updated comment
       }
-    });
+    } catch (error) {
+      console.error('Error updating comment:', error);
+      alert('Failed to update comment. Please try again.');
+    }
+  }
+
+  async onCommentDeleted(commentId: number): Promise<void> {
+    try {
+      await this.dataService.deleteCommentAsync(commentId);
+      console.log('Comment deleted:', commentId);
+      await this.loadPosts(); // Reload to remove the deleted comment
+    } catch (error) {
+      console.error('Error deleting comment:', error);
+      alert('Failed to delete comment. Please try again.');
+    }
   }
 
   // Helper methods for template
-  canEditPost(post: Post): boolean {
-    return this.userService.canEditPost(post.userId);
+  async canEditPost(post: Post): Promise<boolean> {
+    return await this.userService.canEditPost(post.userId);
   }
 
-  canDeletePost(post: Post): boolean {
-    return this.userService.canDeletePost(post.userId);
+  async canDeletePost(post: Post): Promise<boolean> {
+    return await this.userService.canDeletePost(post.userId);
   }
 
-  isCurrentUserPost(post: Post): boolean {
-    return this.userService.isCurrentUserPostOwner(post.userId);
+  async isCurrentUserPost(post: Post): Promise<boolean> {
+    return await this.userService.isCurrentUserPostOwner(post.userId);
   }
 
   getCurrentUserName(): string {

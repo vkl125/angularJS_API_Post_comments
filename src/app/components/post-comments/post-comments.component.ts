@@ -24,12 +24,12 @@ export class PostCommentsComponent {
     return this.comments && this.comments.length > 0;
   }
 
-  canDeleteComment(comment: Comment): boolean {
-    return this.userService.canDeleteComment(comment.email, comment.userId);
+  async canDeleteComment(comment: Comment): Promise<boolean> {
+    return await this.userService.canDeleteComment(comment.email, comment.userId);
   }
 
-  addComment(): void {
-    const currentUser = this.userService.getCurrentUser();
+  async addComment(): Promise<void> {
+    const currentUser = await this.userService.getCurrentUser();
     const newComment = {
       postId: this.postId || 0,
       name: prompt('Enter your name:') || currentUser?.name || 'Anonymous',
@@ -41,8 +41,9 @@ export class PostCommentsComponent {
     this.commentAdded.emit(newComment as Comment);
   }
 
-  editComment(comment: Comment): void {
-    if (!this.canDeleteComment(comment)) {
+  async editComment(comment: Comment): Promise<void> {
+    const canDelete = await this.canDeleteComment(comment);
+    if (!canDelete) {
       alert('You can only edit your own comments.');
       return;
     }
@@ -57,8 +58,9 @@ export class PostCommentsComponent {
     this.commentUpdated.emit(updatedComment);
   }
 
-  deleteComment(comment: Comment): void {
-    if (!this.canDeleteComment(comment)) {
+  async deleteComment(comment: Comment): Promise<void> {
+    const canDelete = await this.canDeleteComment(comment);
+    if (!canDelete) {
       alert('You can only delete your own comments.');
       return;
     }

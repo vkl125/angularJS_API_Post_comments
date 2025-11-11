@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, forkJoin, map, catchError, throwError } from 'rxjs';
+import { Observable, forkJoin, map, catchError, throwError, firstValueFrom } from 'rxjs';
 import { Post, Comment, PostWithComments, PaginationInfo } from '../models/post.model';
 
 @Injectable({
@@ -126,5 +126,42 @@ export class DataService {
         return throwError(() => new Error('Failed to delete comment'));
       })
     );
+  }
+
+  // Async versions of methods for async/await usage
+  async getPostsAsync(page: number = 1, limit: number = 20): Promise<{ posts: Post[], pagination: PaginationInfo }> {
+    return firstValueFrom(this.getPosts(page, limit));
+  }
+
+  async getCommentsAsync(): Promise<Comment[]> {
+    return firstValueFrom(this.getComments());
+  }
+
+  async getPostsWithCommentsAsync(page: number = 1, limit: number = 20): Promise<{ posts: PostWithComments[], pagination: PaginationInfo }> {
+    return firstValueFrom(this.getPostsWithComments(page, limit));
+  }
+
+  async createPostAsync(post: Partial<Post>): Promise<Post> {
+    return firstValueFrom(this.createPost(post));
+  }
+
+  async updatePostAsync(id: number, post: Partial<Post>): Promise<Post> {
+    return firstValueFrom(this.updatePost(id, post));
+  }
+
+  async deletePostAsync(id: number): Promise<void> {
+    return firstValueFrom(this.deletePost(id));
+  }
+
+  async createCommentAsync(comment: Partial<Comment>): Promise<Comment> {
+    return firstValueFrom(this.createComment(comment));
+  }
+
+  async updateCommentAsync(id: number, comment: Partial<Comment>): Promise<Comment> {
+    return firstValueFrom(this.updateComment(id, comment));
+  }
+
+  async deleteCommentAsync(id: number): Promise<void> {
+    return firstValueFrom(this.deleteComment(id));
   }
 }
