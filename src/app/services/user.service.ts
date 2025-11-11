@@ -47,4 +47,12 @@ export class UserService {
   canAddPost(): boolean {
     return this.getCurrentUser() !== null;
   }
+
+  canDeleteComment(commentEmail: string, commentUserId?: number): boolean {
+    const currentUser = this.getCurrentUser();
+    if (!currentUser) return false;
+    
+    // Check by email (current implementation) or by userId if available
+    return currentUser.email === commentEmail || (commentUserId ? currentUser.id === commentUserId : false);
+  }
 }

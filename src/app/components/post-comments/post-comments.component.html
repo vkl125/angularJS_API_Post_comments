@@ -8,10 +8,10 @@
         </div>
         <p class="mb-2">{{ comment.body }}</p>
         <div class="d-flex justify-content-end gap-2">
-          <button class="btn btn-outline-warning btn-sm" (click)="editComment(comment)">
+          <button *ngIf="canDeleteComment(comment)" class="btn btn-outline-warning btn-sm" (click)="editComment(comment)">
             <i class="bi bi-pencil"></i> Edit
           </button>
-          <button class="btn btn-outline-danger btn-sm" (click)="deleteComment(comment)">
+          <button *ngIf="canDeleteComment(comment)" class="btn btn-outline-danger btn-sm" (click)="deleteComment(comment)">
             <i class="bi bi-trash"></i> Delete
           </button>
         </div>

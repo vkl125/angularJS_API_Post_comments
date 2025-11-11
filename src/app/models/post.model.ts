@@ -20,6 +20,7 @@ export interface Comment {
   name: string;
   email: string;
   body: string;
+  userId?: number;
 }
 
 export interface PostWithComments extends Post {
