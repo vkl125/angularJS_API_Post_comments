@@ -2,10 +2,29 @@
   "posts": [
     {
       "id": 1,
-      "title": "Understanding AngularJS Directives",
-      "body": "AngularJS directives are markers on a DOM element that tell AngularJS's HTML compiler to attach a specified behavior to that DOM element or even transform the DOM element and its children.",
+      "title": "brutal",
+      "body": "coolio",
       "userId": 1,
-      "date": "2024-01-15T10:30:00Z"
+      "date": "2024-01-15T10:30:00Z",
+      "comments": [
+        {
+          "id": 1,
+          "postId": 1,
+          "name": "John Doe",
+          "email": "john@example.com",
+          "body": "Great explanation of directives! I've been struggling to understand when to use isolated scope.",
+          "date": "2024-01-15T11:00:00Z"
+        },
+        {
+          "id": 2,
+          "postId": 1,
+          "name": "Jane Smith",
+          "email": "jane@example.com",
+          "body": "This helped me understand the difference between controllers and directives. Thanks!",
+          "date": "2024-01-15T12:30:00Z"
+        }
+      ],
+      "commentsCollapsed": true
     },
     {
       "id": 2,
@@ -266,7 +285,7 @@
     },
     {
       "id": 2,
-      "name": "Jane Smith", 
+      "name": "Jane Smith",
       "email": "jane@example.com"
     },
     {

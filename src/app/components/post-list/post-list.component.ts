@@ -122,4 +122,104 @@ toggleComments(post: Post): void {
     if (!this.postsResponse || this.postsResponse.posts.length === 0) return false;
     return this.postsResponse.posts.some(post => !post.commentsCollapsed);
   }
+
+  // CRUD Operations
+  addNewPost(): void {
+    const newPost = {
+      title: 'New Post Title',
+      body: 'New post content...',
+      userId: 1
+    };
+
+    this.dataService.createPost(newPost).subscribe({
+      next: (createdPost) => {
+        console.log('Post created:', createdPost);
+        this.loadPosts(); // Reload to show the new post
+      },
+      error: (error) => {
+        console.error('Error creating post:', error);
+        alert('Failed to create post. Please try again.');
+      }
+    });
+  }
+
+  editPost(post: Post): void {
+    const updatedPost = {
+      ...post,
+      title: prompt('Enter new title:', post.title) || post.title,
+      body: prompt('Enter new content:', post.body) || post.body
+    };
+
+    if (post.id) {
+      this.dataService.updatePost(post.id, updatedPost).subscribe({
+        next: (result) => {
+          console.log('Post updated:', result);
+          this.loadPosts(); // Reload to show updated post
+        },
+        error: (error) => {
+          console.error('Error updating post:', error);
+          alert('Failed to update post. Please try again.');
+        }
+      });
+    }
+  }
+
+  deletePost(post: Post): void {
+    if (confirm(`Are you sure you want to delete "${post.title}"?`)) {
+      if (post.id) {
+        this.dataService.deletePost(post.id).subscribe({
+          next: () => {
+            console.log('Post deleted:', post.id);
+            this.loadPosts(); // Reload to remove the deleted post
+          },
+          error: (error) => {
+            console.error('Error deleting post:', error);
+            alert('Failed to delete post. Please try again.');
+          }
+        });
+      }
+    }
+  }
+
+  // Comment Event Handlers
+  onCommentAdded(comment: Comment): void {
+    this.dataService.createComment(comment).subscribe({
+      next: (createdComment) => {
+        console.log('Comment created:', createdComment);
+        this.loadPosts(); // Reload to show the new comment
+      },
+      error: (error) => {
+        console.error('Error creating comment:', error);
+        alert('Failed to create comment. Please try again.');
+      }
+    });
+  }
+
+  onCommentUpdated(comment: Comment): void {
+    if (comment.id) {
+      this.dataService.updateComment(comment.id, comment).subscribe({
+        next: (updatedComment) => {
+          console.log('Comment updated:', updatedComment);
+          this.loadPosts(); // Reload to show updated comment
+        },
+        error: (error) => {
+          console.error('Error updating comment:', error);
+          alert('Failed to update comment. Please try again.');
+        }
+      });
+    }
+  }
+
+  onCommentDeleted(commentId: number): void {
+    this.dataService.deleteComment(commentId).subscribe({
+      next: () => {
+        console.log('Comment deleted:', commentId);
+        this.loadPosts(); // Reload to remove the deleted comment
+      },
+      error: (error) => {
+        console.error('Error deleting comment:', error);
+        alert('Failed to delete comment. Please try again.');
+      }
+    });
+  }
 }

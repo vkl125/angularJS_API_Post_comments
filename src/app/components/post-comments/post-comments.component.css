@@ -11,3 +11,23 @@
 .comment:hover {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
+
+/* Comment CRUD Button Styling */
+.comment .btn {
+  transition: all 0.2s ease;
+}
+
+.comment .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Add Comment Button */
+.btn-outline-primary {
+  transition: all 0.2s ease;
+}
+
+.btn-outline-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}

@@ -31,3 +31,23 @@
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+
+/* CRUD Button Styling */
+.btn-group .btn {
+  transition: all 0.2s ease;
+}
+
+.btn-group .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Add New Post Button */
+.btn-primary {
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}

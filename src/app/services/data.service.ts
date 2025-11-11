@@ -71,4 +71,60 @@ export class DataService {
       })
     );
   }
+
+  // CRUD Operations for Posts
+  createPost(post: Partial<Post>): Observable<Post> {
+    return this.http.post<Post>(`${this.apiUrl}/posts`, post).pipe(
+      catchError(error => {
+        console.error('Error creating post:', error);
+        return throwError(() => new Error('Failed to create post'));
+      })
+    );
+  }
+
+  updatePost(id: number, post: Partial<Post>): Observable<Post> {
+    return this.http.put<Post>(`${this.apiUrl}/posts/${id}`, post).pipe(
+      catchError(error => {
+        console.error('Error updating post:', error);
+        return throwError(() => new Error('Failed to update post'));
+      })
+    );
+  }
+
+  deletePost(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/posts/${id}`).pipe(
+      catchError(error => {
+        console.error('Error deleting post:', error);
+        return throwError(() => new Error('Failed to delete post'));
+      })
+    );
+  }
+
+  // CRUD Operations for Comments
+  createComment(comment: Partial<Comment>): Observable<Comment> {
+    return this.http.post<Comment>(`${this.apiUrl}/comments`, comment).pipe(
+      catchError(error => {
+        console.error('Error creating comment:', error);
+        return throwError(() => new Error('Failed to create comment'));
+      })
+    );
+  }
+
+  updateComment(id: number, comment: Partial<Comment>): Observable<Comment> {
+    return this.http.put<Comment>(`${this.apiUrl}/comments/${id}`, comment).pipe(
+      catchError(error => {
+        console.error('Error updating comment:', error);
+        return throwError(() => new Error('Failed to update comment'));
+      })
+    );
+  }
+
+  deleteComment(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/comments/${id}`).pipe(
+      catchError(error => {
+        console.error('Error deleting comment:', error);
+        return throwError(() => new Error('Failed to delete comment'));
+      })
+    );
+  }
 }

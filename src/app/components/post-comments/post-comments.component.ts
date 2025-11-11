@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Comment } from '../../models/post.model';
 
@@ -13,8 +13,39 @@ export class PostCommentsComponent {
   @Input() comments: Comment[] = [];
   @Input() isOpen = false;
   @Input() postId?: number;
+  @Output() commentAdded = new EventEmitter<Comment>();
+  @Output() commentUpdated = new EventEmitter<Comment>();
+  @Output() commentDeleted = new EventEmitter<number>();
 
   hasComments(): boolean {
     return this.comments && this.comments.length > 0;
+  }
+
+  addComment(): void {
+    const newComment = {
+      postId: this.postId || 0,
+      name: prompt('Enter your name:') || 'Anonymous',
+      email: prompt('Enter your email:') || 'anonymous@example.com',
+      body: prompt('Enter your comment:') || 'No comment provided'
+    };
+
+    this.commentAdded.emit(newComment as Comment);
+  }
+
+  editComment(comment: Comment): void {
+    const updatedComment = {
+      ...comment,
+      name: prompt('Enter new name:', comment.name) || comment.name,
+      email: prompt('Enter new email:', comment.email) || comment.email,
+      body: prompt('Enter new comment:', comment.body) || comment.body
+    };
+
+    this.commentUpdated.emit(updatedComment);
+  }
+
+  deleteComment(comment: Comment): void {
+    if (confirm('Are you sure you want to delete this comment?')) {
+      this.commentDeleted.emit(comment.id);
+    }
   }
 }
