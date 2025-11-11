@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, forkJoin, map, catchError, throwError, lastValueFrom } from 'rxjs';
 import { Post, Comment, PostWithComments, PaginationInfo } from '../models/post.model';
+import { delay } from '../helper/helper';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,8 @@ export class DataService {
   constructor(private http: HttpClient) {}
 
   async getPosts(page: number = 1, limit: number = 20): Promise<{ posts: Post[], pagination: PaginationInfo }> {
+    await delay(100); // Simulate API call
+    
     const params = new HttpParams()
       .set('_page', page.toString())
       .set('_limit', limit.toString());
@@ -21,8 +24,18 @@ export class DataService {
       observe: 'response' 
     }).pipe(
       map(response => {
-        const posts = response.body || [];
+        let posts = response.body || [];
         const totalCount = parseInt(response.headers.get('X-Total-Count') || '0', 10);
+        
+        // Ensure posts have dates, add if missing
+        posts = posts.map(post => ({
+          ...post,
+          createdAt: post.createdAt ? new Date(post.createdAt) : new Date(),
+          updatedAt: post.updatedAt ? new Date(post.updatedAt) : new Date()
+        }));
+
+        // Sort posts by createdAt date (newest first)
+        posts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
         
         const pagination: PaginationInfo = {
           currentPage: page,
@@ -43,6 +56,8 @@ export class DataService {
   }
 
   async getComments(): Promise<Comment[]> {
+    await delay(50); // Simulate API call
+    
     const observable = this.http.get<Comment[]>(`${this.apiUrl}/comments`).pipe(
       catchError(error => {
         console.error('Error fetching comments:', error);
@@ -54,6 +69,8 @@ export class DataService {
   }
 
   async getPostsWithComments(page: number = 1, limit: number = 20): Promise<{ posts: PostWithComments[], pagination: PaginationInfo }> {
+    await delay(150); // Simulate API call
+    
     const observable = forkJoin({
       postsData: this.getPosts(page, limit),
       comments: this.getComments()
@@ -80,7 +97,15 @@ export class DataService {
 
   // CRUD Operations for Posts
   async createPost(post: Partial<Post>): Promise<Post> {
-    const observable = this.http.post<Post>(`${this.apiUrl}/posts`, post).pipe(
+    await delay(200); // Simulate API call
+    
+    const postWithDates = {
+      ...post,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+
+    const observable = this.http.post<Post>(`${this.apiUrl}/posts`, postWithDates).pipe(
       catchError(error => {
         console.error('Error creating post:', error);
         return throwError(() => new Error('Failed to create post'));
@@ -91,7 +116,14 @@ export class DataService {
   }
 
   async updatePost(id: number, post: Partial<Post>): Promise<Post> {
-    const observable = this.http.put<Post>(`${this.apiUrl}/posts/${id}`, post).pipe(
+    await delay(150); // Simulate API call
+    
+    const postWithDates = {
+      ...post,
+      updatedAt: new Date()
+    };
+
+    const observable = this.http.put<Post>(`${this.apiUrl}/posts/${id}`, postWithDates).pipe(
       catchError(error => {
         console.error('Error updating post:', error);
         return throwError(() => new Error('Failed to update post'));
@@ -102,6 +134,8 @@ export class DataService {
   }
 
   async deletePost(id: number): Promise<void> {
+    await delay(100); // Simulate API call
+    
     const observable = this.http.delete<void>(`${this.apiUrl}/posts/${id}`).pipe(
       catchError(error => {
         console.error('Error deleting post:', error);
@@ -114,6 +148,8 @@ export class DataService {
 
   // CRUD Operations for Comments
   async createComment(comment: Partial<Comment>): Promise<Comment> {
+    await delay(100); // Simulate API call
+    
     const observable = this.http.post<Comment>(`${this.apiUrl}/comments`, comment).pipe(
       catchError(error => {
         console.error('Error creating comment:', error);
@@ -125,6 +161,8 @@ export class DataService {
   }
 
   async updateComment(id: number, comment: Partial<Comment>): Promise<Comment> {
+    await delay(100); // Simulate API call
+    
     const observable = this.http.put<Comment>(`${this.apiUrl}/comments/${id}`, comment).pipe(
       catchError(error => {
         console.error('Error updating comment:', error);
@@ -136,6 +174,8 @@ export class DataService {
   }
 
   async deleteComment(id: number): Promise<void> {
+    await delay(100); // Simulate API call
+    
     const observable = this.http.delete<void>(`${this.apiUrl}/comments/${id}`).pipe(
       catchError(error => {
         console.error('Error deleting comment:', error);

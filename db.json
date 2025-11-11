@@ -2,11 +2,31 @@
   "posts": [
     {
       "id": 1,
-      "title": "Understanding Angular Directives",
-      "body": "Angular directives are a core feature that allows developers to extend HTML with new attributes and elements. This post explores the different types of directives, how to create custom directives, and best practices for using them effectively in your Angular applications.",
+      "title": "Understanding Angular Directive",
+      "body": "Angular directive are a core feature that allows developers to extend HTML with new attributes and elements. This post explores the different types of directives, how to create custom directives, and best practices for using them effectively in your Angular applications.",
       "userId": 1,
       "date": "2024-01-15T10:30:00Z",
-      "commentsCollapsed": true
+      "commentsCollapsed": true,
+      "createdAt": "2025-11-11T16:31:25.930Z",
+      "updatedAt": "2025-11-11T16:32:43.760Z",
+      "comments": [
+        {
+          "id": 1,
+          "postId": 1,
+          "name": "John Doe",
+          "email": "john@example.com",
+          "body": "Great explanation of directives! I've been struggling to understand when to use isolated scope.",
+          "date": "2024-01-15T11:00:00Z"
+        },
+        {
+          "id": 2,
+          "postId": 1,
+          "name": "Jane Smith",
+          "email": "jane@example.com",
+          "body": "This helped me understand the difference between controllers and directives. Thanks!",
+          "date": "2024-01-15T12:30:00Z"
+        }
+      ]
     },
     {
       "id": 2,
@@ -21,6 +41,13 @@
       "body": "Node.js combined with Express makes it easy to build robust RESTful APIs. Learn about routing, middleware, and best practices for API development.",
       "userId": 3,
       "date": "2024-01-13T09:15:00Z"
+    },
+    {
+      "id": 4,
+      "title": "CSS Grid vs Flexbox: When to Use What",
+      "body": "Both CSS Grid and Flexbox are powerful layout systems, but they serve different purposes. Grid is for two-dimensional layouts while Flexbox is for one-dimensional layouts.",
+      "userId": 1,
+      "date": "2024-01-12T16:45:00Z"
     },
     {
       "id": 5,
@@ -86,6 +113,13 @@
       "date": "2024-01-03T16:15:00Z"
     },
     {
+      "id": 16,
+      "title": "Serverless Computing with AWS Lambda",
+      "body": "Serverless architecture allows you to run code without provisioning servers. Learn about AWS Lambda and its use cases.",
+      "userId": 1,
+      "date": "2023-12-31T13:45:00Z"
+    },
+    {
       "id": 14,
       "title": "GraphQL vs REST: Choosing the Right API",
       "body": "GraphQL offers more flexibility than REST with its query language, but both have their place depending on your application's needs.",
@@ -98,6 +132,13 @@
       "body": "Microservices break applications into small, independent services that can be developed, deployed, and scaled independently.",
       "userId": 3,
       "date": "2024-01-01T08:20:00Z"
+    },
+    {
+      "id": 16,
+      "title": "Serverless Computing with AWS Lambda",
+      "body": "Serverless architecture allows you to run code without provisioning servers. Learn about AWS Lambda and its use cases.",
+      "userId": 1,
+      "date": "2023-12-31T13:45:00Z"
     },
     {
       "id": 17,
@@ -137,11 +178,9 @@
     {
       "id": 22,
       "title": "JavaScript Design Patterns",
-      "body": "Learn  JavaScript design patterns like Module, Observer, Factory, and Singleton to write more maintainable code.",
+      "body": "Learn common JavaScript design patterns like Module, Observer, Factory, and Singleton to write more maintainable code.",
       "userId": 1,
-      "date": "2023-12-25T11:15:00Z",
-      "comments": [],
-      "commentsCollapsed": true
+      "date": "2023-12-25T11:15:00Z"
     },
     {
       "id": 23,
@@ -199,6 +238,14 @@
       "date": "2024-01-13T10:20:00Z"
     },
     {
+      "id": 5,
+      "postId": 4,
+      "name": "Tom Brown",
+      "email": "tom@example.com",
+      "body": "The Grid vs Flexbox comparison is spot on. I use Grid for overall layout and Flexbox for component layouts.",
+      "date": "2024-01-12T17:30:00Z"
+    },
+    {
       "id": 6,
       "postId": 5,
       "name": "Lisa Chen",
@@ -244,22 +291,6 @@
       "email": "john@example.com",
       "body": "i lvooe you",
       "id": 11
-    },
-    {
-      "postId": 19,
-      "name": "john@example.com",
-      "email": "john@example.com",
-      "body": "john@example.com",
-      "userId": 1,
-      "id": 12
-    },
-    {
-      "postId": 22,
-      "name": "john doe",
-      "email": "john@example.com",
-      "body": "jane doe",
-      "userId": 1,
-      "id": 13
     }
   ],
   "users": [

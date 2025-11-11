@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { saveToLocalStorage, loadFromLocalStorage, removeFromLocalStorage } from '../helper/helper';
 
 export interface User {
   id: number;
@@ -19,16 +20,11 @@ export class UserService {
     this.loadUserFromStorage();
   }
 
-  private delay(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
-  private loadUserFromStorage(): void {
+  private async loadUserFromStorage(): Promise<void> {
     try {
-      const storedUser = localStorage.getItem(this.STORAGE_KEY);
+      const storedUser = loadFromLocalStorage(this.STORAGE_KEY);
       if (storedUser) {
-        const userData = JSON.parse(storedUser);
-        this.currentUserSubject.next(userData);
+        this.currentUserSubject.next(storedUser);
       } else {
         // Initialize with default user if no stored user
         this.setCurrentUser({
@@ -58,7 +54,7 @@ export class UserService {
         email: user.email
         // Don't store sensitive data like tokens, passwords, etc.
       };
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(userDataToStore));
+      saveToLocalStorage(this.STORAGE_KEY, userDataToStore);
     } catch (error) {
       console.warn('Failed to save user to localStorage:', error);
     }
@@ -66,14 +62,13 @@ export class UserService {
 
   private clearUserFromStorage(): void {
     try {
-      localStorage.removeItem(this.STORAGE_KEY);
+      removeFromLocalStorage(this.STORAGE_KEY);
     } catch (error) {
       console.warn('Failed to clear user from localStorage:', error);
     }
   }
 
   async setCurrentUser(user: User): Promise<void> {
-    await this.delay(100); // Simulate API call
     this.currentUserSubject.next(user);
     this.saveUserToStorage(user);
   }
@@ -109,14 +104,12 @@ export class UserService {
 
   // Additional method to clear user (logout)
   async clearCurrentUser(): Promise<void> {
-    await this.delay(100); // Simulate API call
     this.currentUserSubject.next(null);
     this.clearUserFromStorage();
   }
 
   // Check if user is logged in
   async isLoggedIn(): Promise<boolean> {
-    await this.delay(50); // Simulate async operation
     return this.currentUserSubject.value !== null;
   }
 }
