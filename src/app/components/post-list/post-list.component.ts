@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
-import { Comment, Post, PaginationInfo } from '../../models/post.model';
+import { UserService } from '../../services/user.service';
+import { Comment, Post, PaginationInfo, User } from '../../models/post.model';
 import { CommonModule } from '@angular/common';
 import { PostCommentsComponent } from '../post-comments/post-comments.component';
 @Component({
@@ -22,11 +23,22 @@ export class PostListComponent implements OnInit {
   };
   currentPage = 1;
   postsPerPage = 20;
+  currentUser: User | null = null;
 
-  constructor(private dataService: DataService) { }
+  constructor(
+    private dataService: DataService,
+    private userService: UserService
+  ) { }
 
   ngOnInit(): void {
+    this.loadCurrentUser();
     this.loadPosts();
+  }
+
+  loadCurrentUser(): void {
+    this.userService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+    });
   }
 
   loadPosts(): void {
@@ -125,10 +137,21 @@ toggleComments(post: Post): void {
 
   // CRUD Operations
   addNewPost(): void {
+    if (!this.userService.canAddPost()) {
+      alert('You must be logged in to create a post.');
+      return;
+    }
+
+    const currentUser = this.userService.getCurrentUser();
+    if (!currentUser) {
+      alert('You must be logged in to create a post.');
+      return;
+    }
+
     const newPost = {
       title: 'New Post Title',
       body: 'New post content...',
-      userId: 1
+      userId: currentUser.id
     };
 
     this.dataService.createPost(newPost).subscribe({
@@ -144,6 +167,11 @@ toggleComments(post: Post): void {
   }
 
   editPost(post: Post): void {
+    if (!this.userService.canEditPost(post.userId)) {
+      alert('You can only edit your own posts.');
+      return;
+    }
+
     const updatedPost = {
       ...post,
       title: prompt('Enter new title:', post.title) || post.title,
@@ -165,6 +193,11 @@ toggleComments(post: Post): void {
   }
 
   deletePost(post: Post): void {
+    if (!this.userService.canDeletePost(post.userId)) {
+      alert('You can only delete your own posts.');
+      return;
+    }
+
     if (confirm(`Are you sure you want to delete "${post.title}"?`)) {
       if (post.id) {
         this.dataService.deletePost(post.id).subscribe({
@@ -221,5 +254,22 @@ toggleComments(post: Post): void {
         alert('Failed to delete comment. Please try again.');
       }
     });
+  }
+
+  // Helper methods for template
+  canEditPost(post: Post): boolean {
+    return this.userService.canEditPost(post.userId);
+  }
+
+  canDeletePost(post: Post): boolean {
+    return this.userService.canDeletePost(post.userId);
+  }
+
+  isCurrentUserPost(post: Post): boolean {
+    return this.userService.isCurrentUserPostOwner(post.userId);
+  }
+
+  getCurrentUserName(): string {
+    return this.currentUser?.name || 'Guest';
   }
 }

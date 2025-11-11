@@ -5,6 +5,13 @@ export interface Post {
   userId: number;
   commentsCollapsed?: boolean;
   comments: Comment[];
+  user?: User;
+}
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
 }
 
 export interface Comment {

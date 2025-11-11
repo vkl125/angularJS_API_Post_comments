@@ -293,5 +293,10 @@
       "name": "Mike Johnson",
       "email": "mike@example.com"
     }
-  ]
+  ],
+  "currentUser": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john@example.com"
+  }
 }
