@@ -1,3 +1,4 @@
 /.galdr
 /node_modules
 /.angular/
+/dist/

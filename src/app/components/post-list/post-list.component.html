@@ -22,6 +22,14 @@
            Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ postsResponse?.pagination?.totalItems || 0 }} posts
         </span>
       </div>
+      
+      <!-- Open/Collapse All Comments Button -->
+      <div *ngIf="postsResponse?.posts && postsResponse.posts.length > 0" class="d-flex align-items-center">
+        <button class="btn btn-outline-secondary btn-sm btn-toggle-all" (click)="toggleAllComments()">
+          <i class="bi" [class.bi-chevron-double-down]="!areAllCommentsOpen()" [class.bi-chevron-double-up]="areAllCommentsOpen()"></i>
+          {{ areAllCommentsOpen() ? 'Collapse All' : 'Open All' }} Comments
+        </button>
+      </div>
 
        <!-- Pagination Top -->
         <div *ngIf="postsResponse?.pagination?.totalPages && postsResponse.pagination.totalPages > 1" class="d-flex justify-content-center mt-4">
@@ -66,23 +74,11 @@
             </div>
 
             <!-- Comments Section -->
-            <div *ngIf="hasComments(post)" class="comment-section mt-3">
-
-
-              <div *ngIf="isCommentsOpen(post)" id="comments-{{post.id}}">
-                <div *ngFor="let comment of post.comments" class="comment mb-3 p-3 bg-white rounded">
-                  <div class="d-flex justify-content-between align-items-start mb-2">
-                    <strong class="text-primary">{{ comment.name }}</strong>
-                    <small class="text-muted">{{ comment.email }}</small>
-                  </div>
-                  <p class="mb-0">{{ comment.body }}</p>
-                </div>
-              </div>
-            </div>
-
-            <div *ngIf="!hasComments(post)" class="text-muted mt-2">
-              No comments yet
-            </div>
+            <app-post-comments 
+              [comments]="post.comments" 
+              [isOpen]="!post.commentsCollapsed"
+              [postId]="post.id">
+            </app-post-comments>
           </div>
         </div>
       </div>

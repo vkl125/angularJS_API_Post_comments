@@ -1,0 +1,17 @@
+<div class="comment-section mt-3">
+  <div *ngIf="hasComments()">
+    <div *ngIf="isOpen" id="comments-{{postId}}">
+      <div *ngFor="let comment of comments" class="comment mb-3 p-3 bg-white rounded">
+        <div class="d-flex justify-content-between align-items-start mb-2">
+          <strong class="text-primary">{{ comment.name }}</strong>
+          <small class="text-muted">{{ comment.email }}</small>
+        </div>
+        <p class="mb-0">{{ comment.body }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!hasComments()" class="text-muted mt-2">
+    No comments yet
+  </div>
+</div>

@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { Comment, Post, PaginationInfo } from '../../models/post.model';
 import { CommonModule } from '@angular/common';
+import { PostCommentsComponent } from '../post-comments/post-comments.component';
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',
   styleUrls: ['./post-list.component.css'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, PostCommentsComponent]
 })
 export class PostListComponent implements OnInit {
   postsResponse: { posts: Post[], totalPages: number, pagination: PaginationInfo } | null = null;
@@ -96,5 +97,29 @@ toggleComments(post: Post): void {
 
   isCommentsOpen(post: Post): boolean {
     return !post.commentsCollapsed;
+  }
+
+  // Method to toggle all comments open or collapsed
+  toggleAllComments(): void {
+    if (!this.postsResponse) return;
+    
+    const allCurrentlyOpen = this.postsResponse.posts.every(post => !post.commentsCollapsed);
+    
+    // If all are open, collapse all; otherwise open all
+    this.postsResponse.posts.forEach(post => {
+      post.commentsCollapsed = allCurrentlyOpen;
+    });
+  }
+
+  // Check if all comments are currently open
+  areAllCommentsOpen(): boolean {
+    if (!this.postsResponse || this.postsResponse.posts.length === 0) return false;
+    return this.postsResponse.posts.every(post => !post.commentsCollapsed);
+  }
+
+  // Check if any comments are open
+  areAnyCommentsOpen(): boolean {
+    if (!this.postsResponse || this.postsResponse.posts.length === 0) return false;
+    return this.postsResponse.posts.some(post => !post.commentsCollapsed);
   }
 }

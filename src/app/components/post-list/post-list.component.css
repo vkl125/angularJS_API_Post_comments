@@ -21,3 +21,13 @@
   border-top: 1px solid #e9ecef;
   padding-top: 15px;
 }
+
+/* Styling for the Open/Collapse All Comments button */
+.btn-toggle-all {
+  transition: all 0.2s ease;
+}
+
+.btn-toggle-all:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
