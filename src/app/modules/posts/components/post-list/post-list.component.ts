@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../../services/data.service';
-import { UserService } from '../../services/user.service';
-import { Comment, Post, PaginationInfo, User } from '../../models/post.model';
+import { DataService, Comment, Post, PaginationInfo, User } from '../../';
+import { UserService } from '../../../shared';
 import { CommonModule } from '@angular/common';
 import { PostCommentsComponent } from '../post-comments/post-comments.component';
+
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',
@@ -97,10 +97,8 @@ export class PostListComponent implements OnInit {
     return (this.currentPage - 1) * this.postsPerPage + 1;
   }
 
-
   getEndIndex(): number {
     if (!this.postsResponse) return 0;
-    //return Math.min(this.currentPage * this.postsPerPage, this.postsResponse.pagination?.totalItems);
     return this.currentPage * this.postsPerPage;
   }
 

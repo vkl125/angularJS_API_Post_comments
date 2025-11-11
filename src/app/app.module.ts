@@ -3,7 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule, NgbCollapseModule, NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
-import { PostListComponent } from './components/post-list/post-list.component';
+import { PostListComponent, PostsModule } from './modules/posts';
+import { SharedModule } from './modules/shared';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,8 @@ import { PostListComponent } from './components/post-list/post-list.component';
     NgbModule,
     NgbCollapseModule,
     NgbAccordionModule,
+    PostsModule,
+    SharedModule,
     PostListComponent
   ],
   providers: [],
