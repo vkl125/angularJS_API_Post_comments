@@ -23,13 +23,6 @@
       "date": "2024-01-13T09:15:00Z"
     },
     {
-      "id": 4,
-      "title": "CSS Grid vs Flexbox: When to Use What",
-      "body": "Both CSS Grid and Flexbox are powerful layout systems, but they serve different purposes. Grid is for two-dimensional layouts while Flexbox is for one-dimensional layouts.",
-      "userId": 1,
-      "date": "2024-01-12T16:45:00Z"
-    },
-    {
       "id": 5,
       "title": "Introduction to TypeScript",
       "body": "TypeScript is a superset of JavaScript that adds static typing. It helps catch errors early and makes large codebases more maintainable.",
@@ -107,13 +100,6 @@
       "date": "2024-01-01T08:20:00Z"
     },
     {
-      "id": 16,
-      "title": "Serverless Computing with AWS Lambda",
-      "body": "Serverless architecture allows you to run code without provisioning servers. Learn about AWS Lambda and its use cases.",
-      "userId": 1,
-      "date": "2023-12-31T13:45:00Z"
-    },
-    {
       "id": 17,
       "title": "Web Security Best Practices",
       "body": "Protect your web applications from common vulnerabilities like XSS, CSRF, and SQL injection with proper security measures.",
@@ -151,9 +137,11 @@
     {
       "id": 22,
       "title": "JavaScript Design Patterns",
-      "body": "Learn common JavaScript design patterns like Module, Observer, Factory, and Singleton to write more maintainable code.",
+      "body": "Learn  JavaScript design patterns like Module, Observer, Factory, and Singleton to write more maintainable code.",
       "userId": 1,
-      "date": "2023-12-25T11:15:00Z"
+      "date": "2023-12-25T11:15:00Z",
+      "comments": [],
+      "commentsCollapsed": true
     },
     {
       "id": 23,
@@ -211,14 +199,6 @@
       "date": "2024-01-13T10:20:00Z"
     },
     {
-      "id": 5,
-      "postId": 4,
-      "name": "Tom Brown",
-      "email": "tom@example.com",
-      "body": "The Grid vs Flexbox comparison is spot on. I use Grid for overall layout and Flexbox for component layouts.",
-      "date": "2024-01-12T17:30:00Z"
-    },
-    {
       "id": 6,
       "postId": 5,
       "name": "Lisa Chen",
@@ -264,6 +244,22 @@
       "email": "john@example.com",
       "body": "i lvooe you",
       "id": 11
+    },
+    {
+      "postId": 19,
+      "name": "john@example.com",
+      "email": "john@example.com",
+      "body": "john@example.com",
+      "userId": 1,
+      "id": 12
+    },
+    {
+      "postId": 22,
+      "name": "john doe",
+      "email": "john@example.com",
+      "body": "jane doe",
+      "userId": 1,
+      "id": 13
     }
   ],
   "users": [
