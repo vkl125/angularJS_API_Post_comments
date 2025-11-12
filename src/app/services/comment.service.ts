@@ -15,15 +15,16 @@ export class CommentService extends BaseService {
     );
   }
 
-  createComment(comment: Partial<Comment>): void {
+  createComment(comment: Partial<Comment>): Observable<Comment> {
     const commentWithDates = {
       ...comment,
       createdAt: createCurrentUTCTimestamp(),
       updatedAt: createCurrentUTCTimestamp()
     };
 
-    this.post<Comment>('comments', commentWithDates).subscribe(() => {
-    });
+    return this.post<Comment>('comments', commentWithDates).pipe(
+      rxjsDelay(100)
+    );
   }
 
   updateComment(id: number, comment: Partial<Comment>): Observable<Comment> {

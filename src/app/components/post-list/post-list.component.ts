@@ -220,9 +220,10 @@ export class PostListComponent implements OnInit {
   // Comment Event Handlers
   async onCommentAdded(comment: Comment): Promise<void> {
     try {
-      const createdComment = await this.commentService.createComment(comment);
-      console.log('Comment created:', createdComment);
-      this.loadPosts(); // Reload to show the new comment
+      this.commentService.createComment(comment).subscribe(() => {
+        console.log('Comment created:', comment);
+        this.loadPosts(); // Reload to show the new comment
+      });
     } catch (error) {
       console.error('Error creating comment:', error);
       alert('Failed to create comment. Please try again.');
@@ -232,9 +233,10 @@ export class PostListComponent implements OnInit {
   async onCommentUpdated(comment: Comment): Promise<void> {
     if (comment.id) {
       try {
-        const updatedComment = await this.commentService.updateComment(comment.id, comment).subscribe();
-        console.log('Comment updated:', updatedComment);
-        this.loadPosts(); // Reload to show updated comment
+        this.commentService.updateComment(comment.id, comment).subscribe(() => {
+          console.log('Comment updated:', comment);
+          this.loadPosts(); // Reload to show updated comment
+        });
       } catch (error) {
         console.error('Error updating comment:', error);
         alert('Failed to update comment. Please try again.');
@@ -244,9 +246,10 @@ export class PostListComponent implements OnInit {
 
   async onCommentDeleted(commentId: number): Promise<void> {
     try {
-      await this.commentService.deleteComment(commentId).subscribe();
-      console.log('Comment deleted:', commentId);
-      this.loadPosts(); // Reload to remove the deleted comment
+      this.commentService.deleteComment(commentId).subscribe(() => {
+        console.log('Comment deleted:', commentId);
+        this.loadPosts(); // Reload to remove the deleted comment
+      });
     } catch (error) {
       console.error('Error deleting comment:', error);
       alert('Failed to delete comment. Please try again.');
