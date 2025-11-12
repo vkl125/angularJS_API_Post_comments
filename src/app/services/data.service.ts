@@ -66,7 +66,7 @@ export class DataService extends BaseService {
     };
 
     return this.put<Post>(`posts/${id}`, postWithDates).pipe(
-      //rxjsDelay(150) // Simulate API call
+      rxjsDelay(150) // Simulate API call
     );
   }
 

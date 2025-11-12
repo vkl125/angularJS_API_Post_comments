@@ -4,7 +4,9 @@
       "title": "Understanding Angular Directive",
       "body": "Angular directive are a core feature that allows developers to extend HTML with new attributes and elements This post explores the different types of directives, how to create custom directives, and best practices for using them effectively in your Angular applications.",
       "updatedAt": "2025-11-12T05:07:17.885Z",
-      "id": 1
+      "id": 1,
+      "userId": 1,
+      "createdAt": "2025-11-12T05:07:17.885Z"
     },
     {
       "id": 2,
