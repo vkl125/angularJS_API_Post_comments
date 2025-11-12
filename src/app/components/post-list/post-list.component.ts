@@ -5,7 +5,7 @@ import { DataService } from '../../services/data.service';
 import { CommentService } from '../../services/comment.service';
 import { UserService } from '../../services/user.service';
 import { Comment } from '../../models/comment.model';
-import { Post, PostWithComments, CreatePostRequest, UpdatePostRequest } from '../../models/post.model';
+import { PostWithComments, CreatePostRequest, UpdatePostRequest } from '../../models/post.model';
 import { User } from '../../models/user.model';
 import { PaginationInfo } from '../../models/pagination.model';
 import { PostCommentsComponent } from '../post-comments/post-comments.component';
