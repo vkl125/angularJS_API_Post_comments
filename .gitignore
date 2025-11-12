@@ -2,3 +2,7 @@
 /node_modules
 /.angular/
 /dist/
+/.vs/test/
+.vs/slnx.sqlite
+/.idea/
+.DS_Store

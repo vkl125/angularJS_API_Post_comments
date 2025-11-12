@@ -1,21 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PostService } from '../../services/post.service';
 import { DataService } from '../../services/data.service';
 import { CommentService } from '../../services/comment.service';
 import { UserService } from '../../services/user.service';
+import { StateService } from '../../services/state.service';
 import { Comment } from '../../models/comment.model';
 import { PostWithComments, CreatePostRequest, UpdatePostRequest } from '../../models/post.model';
 import { User } from '../../models/user.model';
 import { PaginationInfo } from '../../models/pagination.model';
-import { PostCommentsComponent } from '../post-comments/post-comments.component';
+import { PostCommentsModule } from '../post-comments/post-comments.component';
 import { parseDisplayDateToUTC } from '../../helper/helper';
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',
   styleUrls: ['./post-list.component.scss'],
-  standalone: true,
-  imports: [CommonModule, PostCommentsComponent]
 })
 export class PostListComponent implements OnInit {
   postsResponse: { posts: PostWithComments[], pagination: PaginationInfo } | null = null;
@@ -35,7 +34,8 @@ export class PostListComponent implements OnInit {
     private postService: PostService,
     private dataService: DataService,
     private commentService: CommentService,
-    private userService: UserService
+    private userService: UserService,
+    private stateService: StateService
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -44,7 +44,8 @@ export class PostListComponent implements OnInit {
   }
 
   loadCurrentUser(): void {
-    this.userService.currentUser$.subscribe(user => {
+    // Use state service for user state
+    this.stateService.user$.subscribe((user: User | null) => {
       this.currentUser = user;
     });
   }
@@ -273,3 +274,10 @@ export class PostListComponent implements OnInit {
     return this.currentUser?.name || 'Guest';
   }
 }
+
+@NgModule({
+  imports: [ PostCommentsModule, CommonModule ],
+  exports: [ PostListComponent ],
+  declarations: [ PostListComponent ]
+})
+export class PostListModule { }

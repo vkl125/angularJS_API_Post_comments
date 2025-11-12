@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { saveToLocalStorage, loadFromLocalStorage, removeFromLocalStorage } from '../helper/helper';
 import { User, UserPermissions } from '../models/user.model';
+import { StateService } from './state.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class UserService implements UserPermissions {
   public currentUser$ = this.currentUserSubject.asObservable();
   private readonly STORAGE_KEY = 'currentUser';
 
-  constructor() {
+  constructor(private stateService: StateService) {
     this.loadUserFromStorage();
   }
 
@@ -20,6 +21,7 @@ export class UserService implements UserPermissions {
       const storedUser = loadFromLocalStorage<User>(this.STORAGE_KEY);
       if (storedUser) {
         this.currentUserSubject.next(storedUser);
+        this.stateService.updateUser(storedUser);
       } else {
         // Initialize with default user if no stored user
         this.setCurrentUser({
@@ -65,6 +67,7 @@ export class UserService implements UserPermissions {
 
   async setCurrentUser(user: User): Promise<void> {
     this.currentUserSubject.next(user);
+    this.stateService.updateUser(user);
     this.saveUserToStorage(user);
   }
 
@@ -100,6 +103,7 @@ export class UserService implements UserPermissions {
   // Additional method to clear user (logout)
   async clearCurrentUser(): Promise<void> {
     this.currentUserSubject.next(null);
+    this.stateService.updateUser(null);
     this.clearUserFromStorage();
   }
 

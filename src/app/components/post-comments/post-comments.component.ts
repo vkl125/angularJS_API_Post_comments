@@ -1,14 +1,13 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Comment } from '../../models/comment.model';
 import { UserService } from '../../services/user.service';
+import { StateService } from '../../services/state.service';
 
 @Component({
   selector: 'app-post-comments',
   templateUrl: './post-comments.component.html',
   styleUrls: ['./post-comments.component.scss'],
-  standalone: true,
-  imports: [CommonModule]
 })
 export class PostCommentsComponent {
   @Input() comments: Comment[] = [];
@@ -18,7 +17,10 @@ export class PostCommentsComponent {
   @Output() commentUpdated = new EventEmitter<Comment>();
   @Output() commentDeleted = new EventEmitter<number>();
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private stateService: StateService
+  ) {}
 
   hasComments(): boolean {
     return this.comments && this.comments.length > 0;
@@ -29,7 +31,7 @@ export class PostCommentsComponent {
   }
 
   async addComment(): Promise<void> {
-    const currentUser = this.userService.getCurrentUser();
+    const currentUser = this.stateService.getCurrentUser();
     const newComment = {
       postId: this.postId || 0,
       name: prompt('Enter your name:') || currentUser?.name || 'Anonymous',
@@ -68,3 +70,10 @@ export class PostCommentsComponent {
     }
   }
 }
+
+@NgModule({
+  imports: [ CommonModule ],
+  exports: [ PostCommentsComponent ],
+  declarations: [ PostCommentsComponent ]
+})
+export class PostCommentsModule { }

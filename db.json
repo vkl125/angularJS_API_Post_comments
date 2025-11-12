@@ -289,6 +289,16 @@
       "body": "i love you",
       "id": 11,
       "createdAt": "2024-01-06T10:00:00Z"
+    },
+    {
+      "postId": 1,
+      "name": "John Doe",
+      "email": "John@example.com",
+      "body": "[edited] This is my post!",
+      "userId": 1,
+      "createdAt": "2025-11-12T16:39:01.000Z",
+      "updatedAt": "2025-11-12T16:39:15.993Z",
+      "id": 12
     }
   ],
   "users": [

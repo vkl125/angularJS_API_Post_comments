@@ -4,12 +4,17 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgbModule, NgbCollapseModule, NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
-import { PostListComponent } from './components/post-list/post-list.component';
+import { PostListComponent, PostListModule } from './components/post-list/post-list.component';
 import { SharedModule } from './modules/shared/shared.module';
-
+import { PostCommentsModule } from './components/post-comments/post-comments.component';
+import { CommentService } from './services';
+import { DataService } from './services';
+import { UserService } from './services';
+import { PostService } from './services';
+import { StateService } from './services';
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -18,9 +23,16 @@ import { SharedModule } from './modules/shared/shared.module';
     NgbCollapseModule,
     NgbAccordionModule,
     SharedModule,
-    PostListComponent
+    PostListModule,
+    PostCommentsModule
   ],
-  providers: [],
+  providers: [
+    CommentService,
+    DataService,
+    UserService,
+    PostService,
+    StateService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
