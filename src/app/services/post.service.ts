@@ -5,6 +5,7 @@ import { CommentService } from './comment.service';
 import { Post, PostWithComments } from '../models/post.model';
 import { PaginationInfo } from '../models/pagination.model';
 import { delay } from '../helper/helper';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -24,9 +25,16 @@ export class PostService {
       comments: this.commentService.getComments()
     }).pipe(
       map(({ postsData, comments }) => {
+        // Ensure comments have proper dates
+        const commentsWithDates = comments.map(comment => ({
+          ...comment,
+          createdAt: comment.createdAt ? moment(comment.createdAt).local().format("MMMM Do YYYY, h:mm:ss a") : moment().local().format("MMMM Do YYYY, h:mm:ss a"),
+          updatedAt: comment.updatedAt ? moment(comment.updatedAt).local().format("MMMM Do YYYY, h:mm:ss a") : ""
+        }));
+
         const postsWithComments: PostWithComments[] = postsData.data.map(post => ({
           ...post,
-          comments: comments.filter(comment => comment.postId === post.id)
+          comments: commentsWithDates.filter(comment => comment.postId === post.id)
         }));
 
         return {

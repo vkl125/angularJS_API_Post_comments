@@ -5,4 +5,6 @@ export interface Comment {
   email: string;
   body: string;
   userId?: number;
+  createdAt: Date | string;
+  updatedAt: Date | string;
 }
