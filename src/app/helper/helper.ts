@@ -1,10 +1,10 @@
 // Helper utility functions
 
-export function delay(ms) {
+export function delay(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-export function saveToLocalStorage(key, data) {
+export function saveToLocalStorage<T>(key: string, data: T): boolean {
     try {
         localStorage.setItem(key, JSON.stringify(data));
         return true;
@@ -14,7 +14,7 @@ export function saveToLocalStorage(key, data) {
     }
 }
 
-export function loadFromLocalStorage(key) {
+export function loadFromLocalStorage<T>(key: string): T | null {
     try {
         const storedData = localStorage.getItem(key);
         return storedData ? JSON.parse(storedData) : null;
@@ -24,7 +24,7 @@ export function loadFromLocalStorage(key) {
     }
 }
 
-export function removeFromLocalStorage(key) {
+export function removeFromLocalStorage(key: string): boolean {
     try {
         localStorage.removeItem(key);
         return true;
@@ -34,7 +34,7 @@ export function removeFromLocalStorage(key) {
     }
 }
 
-export function formatDate(date) {
+export function formatDate(date: Date | string): string {
     return new Date(date).toLocaleString('en-US', {
         year: 'numeric',
         month: 'long',
@@ -44,3 +44,11 @@ export function formatDate(date) {
     });
 }
 
+export function generateId(): number {
+    return Date.now() + Math.floor(Math.random() * 1000);
+}
+
+export function validateEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}

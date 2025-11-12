@@ -1,17 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { saveToLocalStorage, loadFromLocalStorage, removeFromLocalStorage } from '../helper/helper';
-
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-}
+import { User, UserPermissions } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserService implements UserPermissions {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
   private readonly STORAGE_KEY = 'currentUser';
@@ -22,7 +17,7 @@ export class UserService {
 
   private async loadUserFromStorage(): Promise<void> {
     try {
-      const storedUser = loadFromLocalStorage(this.STORAGE_KEY);
+      const storedUser = loadFromLocalStorage<User>(this.STORAGE_KEY);
       if (storedUser) {
         this.currentUserSubject.next(storedUser);
       } else {

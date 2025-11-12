@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataService } from './services/data.service';
-import { PostWithComments, PaginationInfo } from './models/post.model';
+import { PostWithComments } from './models/post.model';
+import { PaginationInfo } from './models/pagination.model';
 import { PostListComponent } from './components/post-list/post-list.component';
 @Component({
   selector: 'app-root',

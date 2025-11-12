@@ -1,0 +1,41 @@
+import { Injectable } from '@angular/core';
+import { forkJoin, map, lastValueFrom } from 'rxjs';
+import { DataService } from './data.service';
+import { CommentService } from './comment.service';
+import { Post, PostWithComments } from '../models/post.model';
+import { PaginationInfo } from '../models/pagination.model';
+import { delay } from '../helper/helper';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class PostService {
+
+  constructor(
+    private dataService: DataService,
+    private commentService: CommentService
+  ) {}
+
+  async getPostsWithComments(page: number = 1, limit: number = 20): Promise<{ posts: PostWithComments[], pagination: PaginationInfo }> {
+    await delay(150); // Simulate API call
+    
+    const observable = forkJoin({
+      postsData: this.dataService.getPosts(page, limit),
+      comments: this.commentService.getComments()
+    }).pipe(
+      map(({ postsData, comments }) => {
+        const postsWithComments: PostWithComments[] = postsData.data.map(post => ({
+          ...post,
+          comments: comments.filter(comment => comment.postId === post.id)
+        }));
+
+        return {
+          posts: postsWithComments,
+          pagination: postsData.pagination
+        };
+      })
+    );
+
+    return lastValueFrom(observable);
+  }
+}

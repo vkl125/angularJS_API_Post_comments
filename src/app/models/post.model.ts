@@ -1,3 +1,6 @@
+import { Comment } from './comment.model';
+import { User } from './user.model';
+
 export interface Post {
   id: number;
   title: string;
@@ -10,28 +13,17 @@ export interface Post {
   updatedAt: Date | string;
 }
 
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-}
-
-export interface Comment {
-  id: number;
-  postId: number;
-  name: string;
-  email: string;
-  body: string;
-  userId?: number;
-}
-
 export interface PostWithComments extends Post {
   comments: Comment[];
 }
 
-export interface PaginationInfo {
-  currentPage: number;
-  pageSize: number;
-  totalItems: number;
-  totalPages: number;
+export interface CreatePostRequest {
+  title: string;
+  body: string;
+  userId: number;
+}
+
+export interface UpdatePostRequest {
+  title?: string;
+  body?: string;
 }

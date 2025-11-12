@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../../services/data.service';
-import { UserService } from '../../services/user.service';
-import { Comment, Post, PaginationInfo, User } from '../../models/post.model';
 import { CommonModule } from '@angular/common';
+import { PostService } from '../../services/post.service';
+import { DataService } from '../../services/data.service';
+import { CommentService } from '../../services/comment.service';
+import { UserService } from '../../services/user.service';
+import { Comment } from '../../models/comment.model';
+import { Post, PostWithComments, CreatePostRequest, UpdatePostRequest } from '../../models/post.model';
+import { User } from '../../models/user.model';
+import { PaginationInfo } from '../../models/pagination.model';
 import { PostCommentsComponent } from '../post-comments/post-comments.component';
+
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',
@@ -12,7 +18,7 @@ import { PostCommentsComponent } from '../post-comments/post-comments.component'
   imports: [CommonModule, PostCommentsComponent]
 })
 export class PostListComponent implements OnInit {
-  postsResponse: { posts: Post[], pagination: PaginationInfo } | null = null;
+  postsResponse: { posts: PostWithComments[], pagination: PaginationInfo } | null = null;
   loading = false;
   error: string | null = null;
   pagination: PaginationInfo = {
@@ -26,7 +32,9 @@ export class PostListComponent implements OnInit {
   currentUser: User | null = null;
 
   constructor(
+    private postService: PostService,
     private dataService: DataService,
+    private commentService: CommentService,
     private userService: UserService
   ) { }
 
@@ -45,10 +53,10 @@ export class PostListComponent implements OnInit {
     this.loading = true;
     this.error = null;
     try {
-      const response = await this.dataService.getPostsWithComments(this.currentPage, this.postsPerPage);
-      response.posts.forEach((post: Post) => {
+      const response = await this.postService.getPostsWithComments(this.currentPage, this.postsPerPage);
+      response.posts.forEach((post: PostWithComments) => {
         post.commentsCollapsed = true; // Start with comments collapsed
-      })
+      });
       this.postsResponse = response;
       this.pagination = response.pagination;
       this.loading = false;
@@ -84,7 +92,7 @@ export class PostListComponent implements OnInit {
     return pages;
   }
 
-  hasComments(post: any): boolean {
+  hasComments(post: PostWithComments): boolean {
     return post.comments && post.comments.length > 0;
   }
 
@@ -92,18 +100,16 @@ export class PostListComponent implements OnInit {
     return (this.currentPage - 1) * this.postsPerPage + 1;
   }
 
-
   getEndIndex(): number {
     if (!this.postsResponse) return 0;
-    //return Math.min(this.currentPage * this.postsPerPage, this.postsResponse.pagination?.totalItems);
     return this.currentPage * this.postsPerPage;
   }
 
-  toggleComments(post: Post): void {
+  toggleComments(post: PostWithComments): void {
     post.commentsCollapsed = !post.commentsCollapsed;
   }
 
-  isCommentsOpen(post: Post): boolean {
+  isCommentsOpen(post: PostWithComments): boolean {
     return !post.commentsCollapsed;
   }
 
@@ -135,7 +141,7 @@ export class PostListComponent implements OnInit {
   async addNewPost(): Promise<void> {
     if (!this.userService.canAddPost()) {
       alert('You must be logged in to create a post.');
-      return Promise.resolve();
+      return;
     }
 
     const currentUser = this.userService.getCurrentUser();
@@ -144,32 +150,29 @@ export class PostListComponent implements OnInit {
       return;
     }
 
-    const newPost = {
+    const newPost: CreatePostRequest = {
       title: 'New Post Title',
       body: 'New post content...',
       userId: currentUser.id
     };
 
     try {
-      const createdPost = await this.dataService.createPost(newPost)
+      const createdPost = await this.dataService.createPost(newPost);
       console.log('Post created:', createdPost);
       this.loadPosts(); // Reload to show the new post
-
-
     } catch (error) {
       console.error('Error creating post:', error);
       alert('Failed to create post. Please try again.');
     }
   }
 
-  async editPost(post: Post): Promise<void> {
+  async editPost(post: PostWithComments): Promise<void> {
     if (!this.userService.canEditPost(post.userId)) {
       alert('You can only edit your own posts.');
       return;
     }
 
-    const updatedPost = {
-      ...post,
+    const updatedPost: UpdatePostRequest = {
       title: prompt('Enter new title:', post.title) || post.title,
       body: prompt('Enter new content:', post.body) || post.body
     };
@@ -186,7 +189,7 @@ export class PostListComponent implements OnInit {
     }
   }
 
-  async deletePost(post: Post): Promise<void> {
+  async deletePost(post: PostWithComments): Promise<void> {
     if (!this.userService.canDeletePost(post.userId)) {
       alert('You can only delete your own posts.');
       return;
@@ -195,11 +198,10 @@ export class PostListComponent implements OnInit {
     if (confirm(`Are you sure you want to delete "${post.title}"?`)) {
       if (post.id) {
         try {
-          const result = await this.dataService.deletePost(post.id);
+          await this.dataService.deletePost(post.id);
           console.log('Post deleted:', post.id);
           this.loadPosts(); // Reload to remove the deleted post
         } catch (error) {
-
           console.error('Error deleting post:', error);
           alert('Failed to delete post. Please try again.');
         }
@@ -207,56 +209,56 @@ export class PostListComponent implements OnInit {
     }
   }
 
-// Comment Event Handlers
-async onCommentAdded(comment: Comment): Promise<void> {
-  try {
-    const createdComment = await this.dataService.createComment(comment);
-    console.log('Comment created:', createdComment);
-    this.loadPosts(); // Reload to show the new comment
-  } catch (error) {
-    console.error('Error creating comment:', error);
-    alert('Failed to create comment. Please try again.');
-  }
-}
-
-async onCommentUpdated(comment: Comment): Promise<void> {
-  if(comment.id) {
+  // Comment Event Handlers
+  async onCommentAdded(comment: Comment): Promise<void> {
     try {
-      const updatedComment = await this.dataService.updateComment(comment.id, comment);
-      console.log('Comment updated:', updatedComment);
-      this.loadPosts(); // Reload to show updated comment
+      const createdComment = await this.commentService.createComment(comment);
+      console.log('Comment created:', createdComment);
+      this.loadPosts(); // Reload to show the new comment
     } catch (error) {
-      console.error('Error updating comment:', error);
-      alert('Failed to update comment. Please try again.');
+      console.error('Error creating comment:', error);
+      alert('Failed to create comment. Please try again.');
     }
   }
-}
 
-async onCommentDeleted(commentId: number): Promise<void> {
-  try {
-    await this.dataService.deleteComment(commentId);
-    console.log('Comment deleted:', commentId);
-    this.loadPosts(); // Reload to remove the deleted comment
-  } catch (error) {
-    console.error('Error deleting comment:', error);
-    alert('Failed to delete comment. Please try again.');
+  async onCommentUpdated(comment: Comment): Promise<void> {
+    if (comment.id) {
+      try {
+        const updatedComment = await this.commentService.updateComment(comment.id, comment);
+        console.log('Comment updated:', updatedComment);
+        this.loadPosts(); // Reload to show updated comment
+      } catch (error) {
+        console.error('Error updating comment:', error);
+        alert('Failed to update comment. Please try again.');
+      }
+    }
   }
-}
 
-// Helper methods for template
-canEditPost(post: Post): boolean {
-  return this.userService.canEditPost(post.userId);
-}
+  async onCommentDeleted(commentId: number): Promise<void> {
+    try {
+      await this.commentService.deleteComment(commentId);
+      console.log('Comment deleted:', commentId);
+      this.loadPosts(); // Reload to remove the deleted comment
+    } catch (error) {
+      console.error('Error deleting comment:', error);
+      alert('Failed to delete comment. Please try again.');
+    }
+  }
 
-canDeletePost(post: Post): boolean {
-  return this.userService.canDeletePost(post.userId);
-}
+  // Helper methods for template
+  canEditPost(post: PostWithComments): boolean {
+    return this.userService.canEditPost(post.userId);
+  }
 
-isCurrentUserPost(post: Post): boolean {
-  return this.userService.isCurrentUserPostOwner(post.userId);
-}
+  canDeletePost(post: PostWithComments): boolean {
+    return this.userService.canDeletePost(post.userId);
+  }
 
-getCurrentUserName(): string {
-  return this.currentUser?.name || 'Guest';
-}
+  isCurrentUserPost(post: PostWithComments): boolean {
+    return this.userService.isCurrentUserPostOwner(post.userId);
+  }
+
+  getCurrentUserName(): string {
+    return this.currentUser?.name || 'Guest';
+  }
 }

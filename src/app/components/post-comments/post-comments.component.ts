@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Comment } from '../../models/post.model';
+import { Comment } from '../../models/comment.model';
 import { UserService } from '../../services/user.service';
 
 @Component({
