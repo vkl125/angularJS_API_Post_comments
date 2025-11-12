@@ -26,4 +26,6 @@ export interface CreatePostRequest {
 export interface UpdatePostRequest {
   title?: string;
   body?: string;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
 }

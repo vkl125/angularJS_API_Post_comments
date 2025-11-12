@@ -9,7 +9,7 @@ import { PostWithComments, CreatePostRequest, UpdatePostRequest } from '../../mo
 import { User } from '../../models/user.model';
 import { PaginationInfo } from '../../models/pagination.model';
 import { PostCommentsComponent } from '../post-comments/post-comments.component';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',
@@ -175,10 +175,12 @@ export class PostListComponent implements OnInit {
     }
 
     const updatedPost: UpdatePostRequest = {
+      ...post,
       title: prompt('Enter new title:', post.title) || post.title,
-      body: prompt('Enter new content:', post.body) || post.body
+      body: prompt('Enter new content:', post.body) || post.body,
+      createdAt: post.createdAt
     };
-
+    moment(updatedPost.createdAt)
     if (post.id) {
       this.dataService.updatePost(post.id, updatedPost).subscribe({
         next: (result) => {

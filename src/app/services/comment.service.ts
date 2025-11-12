@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, delay as rxjsDelay } from 'rxjs';
+import { Observable, delay as rxjsDelay, map } from 'rxjs';
 import { BaseService } from './base.service';
 import { Comment } from '../models/comment.model';
 import * as moment from 'moment';
@@ -15,32 +15,29 @@ export class CommentService extends BaseService {
     );
   }
 
-  createComment(comment: Partial<Comment>): Observable<Comment> {
+  createComment(comment: Partial<Comment>): void {
     const commentWithDates = {
       ...comment,
-      createdAt: moment.utc().toDate(),
-      updatedAt: moment.utc().toDate()
+      createdAt: moment.utc().toISOString(),
+      updatedAt: moment.utc().toISOString()
     };
 
-    return this.post<Comment>('comments', commentWithDates).pipe(
-      rxjsDelay(100) // Simulate API call
-    );
+    this.post<Comment>('comments', commentWithDates).subscribe(() => {
+    });
   }
 
-  updateComment(id: number, comment: Partial<Comment>): Observable<Comment> {
+  async updateComment(id: number, comment: Partial<Comment>): Promise<void> {
     const commentWithDates = {
       ...comment,
-      updatedAt: moment.utc().toDate()
+      createdAt: comment.createdAt ? moment(comment.createdAt, "MMMM Do YYYY, h:mm:ss a").utc().toISOString() : "",
+      updatedAt: moment.utc().toISOString()
     };
-
-    return this.put<Comment>(`comments/${id}`, commentWithDates).pipe(
-      rxjsDelay(100) // Simulate API call
-    );
+    await this.put<Comment>(`comments/${id}`, commentWithDates).subscribe(() => {
+    });
   }
 
-  deleteComment(id: number): Observable<void> {
-    return this.delete<void>(`comments/${id}`).pipe(
-      rxjsDelay(100) // Simulate API call
-    );
+  async deleteComment(id: number): Promise<void> {
+    await this.delete<void>(`comments/${id}`).subscribe(() => {
+    });
   }
 }
