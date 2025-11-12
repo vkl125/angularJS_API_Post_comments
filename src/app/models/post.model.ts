@@ -6,8 +6,8 @@ export interface Post {
   commentsCollapsed?: boolean;
   comments: Comment[];
   user?: User;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: Date | string;
+  updatedAt: Date | string;
 }
 
 export interface User {

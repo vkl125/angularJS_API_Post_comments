@@ -74,16 +74,17 @@
             <p class="card-text">{{ post.body }}</p>
             <div class="d-flex justify-content-between align-items-center">
               <div>
-                <small class="text-muted">
-                  Post ID: {{ post.id }} | User ID: {{ post.userId }}<br>
-                  Created: {{ post.createdAt | date:'medium' }}
-                  <span *ngIf="post.updatedAt && post.updatedAt !== post.createdAt">
-                    <br>Updated: {{ post.updatedAt | date:'medium' }}
-                  </span>
-                </small>
-                <div *ngIf="isCurrentUserPost(post)" class="badge bg-success ms-2">
+                 <div *ngIf="isCurrentUserPost(post)" class="badge bg-success ms-2">
                   <i class="bi bi-person-check"></i> Your Post
                 </div>
+                <small class="text-muted">
+                  Post ID: {{ post.id }} | User ID: {{ post.userId }}<br>
+                  Created: {{ post.createdAt  }}
+                  <span *ngIf="post.updatedAt && post.updatedAt !== post.createdAt">
+                    <br>Updated: {{ post.updatedAt  }}
+                  </span>
+                </small>
+                
               </div>
               <div class="btn-group" role="group">
                 <button class="btn btn-outline-primary btn-sm" (click)="toggleComments(post)">

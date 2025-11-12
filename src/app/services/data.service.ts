@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, forkJoin, map, catchError, throwError, lastValueFrom } from 'rxjs';
 import { Post, Comment, PostWithComments, PaginationInfo } from '../models/post.model';
 import { delay } from '../helper/helper';
-
+import * as moment from 'moment';
 @Injectable({
   providedIn: 'root'
 })
@@ -30,10 +30,10 @@ export class DataService {
         // Ensure posts have dates, add if missing
         posts = posts.map(post => ({
           ...post,
-          createdAt: post.createdAt ? new Date(post.createdAt) : new Date(),
-          updatedAt: post.updatedAt ? new Date(post.updatedAt) : new Date()
+          createdAt: post.createdAt ? moment(post.createdAt).local().format("MMMM Do YYYY, h:mm:ss a") : moment().local().format("MMMM Do YYYY, h:mm:ss a"),
+          updatedAt: post.updatedAt ? moment(post.updatedAt).local().format("MMMM Do YYYY, h:mm:ss a") : ""
         }));
-
+        console.log(moment(response.body?.[0].createdAt).local().format("MMMM Do YYYY, h:mm:ss a") || moment().local().format("MMMM Do YYYY, h:mm:ss a"));
         // Sort posts by createdAt date (newest first)
         posts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
         
@@ -101,8 +101,8 @@ export class DataService {
     
     const postWithDates = {
       ...post,
-      createdAt: new Date(),
-      updatedAt: new Date()
+      createdAt: moment.utc().toDate(),
+      updatedAt: moment.utc().toDate()
     };
 
     const observable = this.http.post<Post>(`${this.apiUrl}/posts`, postWithDates).pipe(
@@ -120,7 +120,7 @@ export class DataService {
     
     const postWithDates = {
       ...post,
-      updatedAt: new Date()
+      updatedAt: moment.utc().toDate()
     };
 
     const observable = this.http.put<Post>(`${this.apiUrl}/posts/${id}`, postWithDates).pipe(

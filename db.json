@@ -3,12 +3,11 @@
     {
       "id": 1,
       "title": "Understanding Angular Directive",
-      "body": "Angular directive are a core feature that allows developers to extend HTML with new attributes and elements. This post explores the different types of directives, how to create custom directives, and best practices for using them effectively in your Angular applications.",
+      "body": "Angular directive are a core feature that allows developers to extend HTML with new attributes and elements This post explores the different types of directives, how to create custom directives, and best practices for using them effectively in your Angular applications.",
       "userId": 1,
-      "date": "2024-01-15T10:30:00Z",
       "commentsCollapsed": true,
-      "createdAt": "2025-11-11T16:31:25.930Z",
-      "updatedAt": "2025-11-11T16:32:43.760Z",
+      "createdAt": "2024-01-15T10:30:00.000Z",
+      "updatedAt": "2025-11-12T02:36:07.252Z",
       "comments": [
         {
           "id": 1,
@@ -16,7 +15,8 @@
           "name": "John Doe",
           "email": "john@example.com",
           "body": "Great explanation of directives! I've been struggling to understand when to use isolated scope.",
-          "date": "2024-01-15T11:00:00Z"
+          "createdAt": "2024-01-15T11:00:00Z",
+          "updatedAt": "2024-10-11T16:35:00Z"
         },
         {
           "id": 2,
@@ -24,7 +24,8 @@
           "name": "Jane Smith",
           "email": "jane@example.com",
           "body": "This helped me understand the difference between controllers and directives. Thanks!",
-          "date": "2024-01-15T12:30:00Z"
+          "createdAt": "2024-01-15T12:30:00Z",
+          "updatedAt": "2024-09-11T16:35:00Z"
         }
       ]
     },
@@ -33,175 +34,178 @@
       "title": "JavaScript ES6 Features You Should Know",
       "body": "ES6 introduced many powerful features to JavaScript including arrow functions, template literals, destructuring, and classes that make development more efficient.",
       "userId": 2,
-      "date": "2024-01-14T14:20:00Z"
+      "createdAt": "2024-01-14T14:20:00Z"
     },
     {
       "id": 3,
       "title": "Building RESTful APIs with Node.js",
       "body": "Node.js combined with Express makes it easy to build robust RESTful APIs. Learn about routing, middleware, and best practices for API development.",
       "userId": 3,
-      "date": "2024-01-13T09:15:00Z"
+      "createdAt": "2024-01-13T09:15:00Z"
     },
     {
       "id": 4,
       "title": "CSS Grid vs Flexbox: When to Use What",
       "body": "Both CSS Grid and Flexbox are powerful layout systems, but they serve different purposes. Grid is for two-dimensional layouts while Flexbox is for one-dimensional layouts.",
       "userId": 1,
-      "date": "2024-01-12T16:45:00Z"
+      "createdAt": "2024-01-12T16:45:00Z"
     },
     {
       "id": 5,
       "title": "Introduction to TypeScript",
       "body": "TypeScript is a superset of JavaScript that adds static typing. It helps catch errors early and makes large codebases more maintainable.",
       "userId": 2,
-      "date": "2024-01-11T11:30:00Z"
+      "createdAt": "2024-01-11T11:30:00Z",
+      "updatedAt": "2024-01-11T16:35:00Z"
     },
     {
       "id": 6,
       "title": "Web Performance Optimization Techniques",
       "body": "Learn essential techniques to improve your website's performance including code splitting, lazy loading, image optimization, and caching strategies.",
       "userId": 3,
-      "date": "2024-01-10T13:20:00Z"
+      "createdAt": "2024-01-10T13:20:00Z",
+      "updatedAt": "2024-12-11T01:35:00Z"
     },
     {
       "id": 7,
       "title": "Getting Started with React Hooks",
       "body": "React Hooks revolutionized functional components by allowing state and lifecycle features without writing classes. Learn useState, useEffect, and custom hooks.",
       "userId": 1,
-      "date": "2024-01-09T08:45:00Z"
+      "createdAt": "2024-01-09T08:45:00Z"
     },
     {
       "id": 8,
       "title": "Database Design Best Practices",
       "body": "Proper database design is crucial for application performance. Learn about normalization, indexing, relationships, and query optimization.",
       "userId": 2,
-      "date": "2024-01-08T15:10:00Z"
+      "createdAt": "2024-01-08T15:10:00Z"
     },
     {
       "id": 9,
       "title": "Mobile-First Responsive Design",
       "body": "Mobile-first design ensures your website works well on all devices. Start with mobile constraints and progressively enhance for larger screens.",
       "userId": 3,
-      "date": "2024-01-07T12:25:00Z"
+      "createdAt": "2024-01-07T12:25:00Z"
     },
     {
       "id": 10,
       "title": "Git Workflow Strategies",
       "body": "Different Git workflows like Git Flow, GitHub Flow, and GitLab Flow offer structured approaches to collaboration and deployment.",
       "userId": 1,
-      "date": "2024-01-06T10:50:00Z"
+      "createdAt": "2024-01-06T10:50:00Z"
     },
     {
       "id": 11,
       "title": "Docker for Development",
       "body": "Docker containers provide consistent development environments. Learn how to containerize your applications and use Docker Compose.",
       "userId": 2,
-      "date": "2024-01-05T14:35:00Z"
+      "createdAt": "2024-01-05T14:35:00Z"
     },
     {
       "id": 12,
       "title": "Testing Strategies for Web Applications",
       "body": "Comprehensive testing includes unit tests, integration tests, and end-to-end tests. Learn about testing frameworks and best practices.",
       "userId": 3,
-      "date": "2024-01-04T09:40:00Z"
+      "createdAt": "2024-01-04T09:40:00Z"
     },
     {
       "id": 13,
       "title": "Progressive Web Apps (PWA)",
       "body": "PWAs combine the best of web and mobile apps with features like offline functionality, push notifications, and home screen installation.",
       "userId": 1,
-      "date": "2024-01-03T16:15:00Z"
+      "createdAt": "2024-01-03T16:15:00Z"
     },
     {
       "id": 16,
       "title": "Serverless Computing with AWS Lambda",
       "body": "Serverless architecture allows you to run code without provisioning servers. Learn about AWS Lambda and its use cases.",
       "userId": 1,
-      "date": "2023-12-31T13:45:00Z"
+      "createdAt": "2023-12-31T13:45:00Z"
     },
     {
       "id": 14,
       "title": "GraphQL vs REST: Choosing the Right API",
       "body": "GraphQL offers more flexibility than REST with its query language, but both have their place depending on your application's needs.",
       "userId": 2,
-      "date": "2024-01-02T11:55:00Z"
+      "createdAt": "2024-01-02T11:55:00Z"
     },
     {
       "id": 15,
       "title": "Microservices Architecture",
       "body": "Microservices break applications into small, independent services that can be developed, deployed, and scaled independently.",
       "userId": 3,
-      "date": "2024-01-01T08:20:00Z"
+      "createdAt": "2024-01-01T08:20:00Z"
     },
     {
       "id": 16,
       "title": "Serverless Computing with AWS Lambda",
       "body": "Serverless architecture allows you to run code without provisioning servers. Learn about AWS Lambda and its use cases.",
       "userId": 1,
-      "date": "2023-12-31T13:45:00Z"
+      "createdAt": "2023-12-31T13:45:00Z"
     },
     {
       "id": 17,
       "title": "Web Security Best Practices",
       "body": "Protect your web applications from common vulnerabilities like XSS, CSRF, and SQL injection with proper security measures.",
       "userId": 2,
-      "date": "2023-12-30T10:10:00Z"
+      "createdAt": "2023-12-30T10:10:00Z"
     },
     {
       "id": 18,
       "title": "CI/CD Pipeline Setup",
       "body": "Continuous Integration and Continuous Deployment automate testing and deployment processes, improving development efficiency.",
       "userId": 3,
-      "date": "2023-12-29T15:30:00Z"
+      "createdAt": "2023-12-29T15:30:00Z"
     },
     {
       "id": 19,
       "title": "Machine Learning for Web Developers",
       "body": "Learn how to integrate machine learning models into web applications using TensorFlow.js and other JavaScript ML libraries.",
       "userId": 1,
-      "date": "2023-12-28T12:05:00Z"
+      "createdAt": "2023-12-28T12:05:00Z"
     },
     {
       "id": 20,
       "title": "Web Accessibility (a11y) Guidelines",
       "body": "Make your websites accessible to everyone by following WCAG guidelines and implementing proper ARIA attributes and keyboard navigation.",
       "userId": 2,
-      "date": "2023-12-27T09:25:00Z"
+      "createdAt": "2023-12-27T09:25:00Z"
     },
     {
       "id": 21,
       "title": "Advanced CSS Techniques",
       "body": "Explore advanced CSS features like CSS custom properties, blend modes, filters, and scroll snap for modern web design.",
       "userId": 3,
-      "date": "2023-12-26T14:50:00Z"
+      "createdAt": "2023-12-26T14:50:00Z"
     },
     {
       "id": 22,
       "title": "JavaScript Design Patterns",
       "body": "Learn common JavaScript design patterns like Module, Observer, Factory, and Singleton to write more maintainable code.",
       "userId": 1,
-      "date": "2023-12-25T11:15:00Z"
+      "createdAt": "2023-12-25T11:15:00Z"
     },
     {
       "id": 23,
       "title": "Building Real-time Applications",
       "body": "Create real-time features using WebSockets, Socket.IO, or Server-Sent Events for chat apps, live updates, and collaborative tools.",
       "userId": 2,
-      "date": "2023-12-24T16:40:00Z"
+      "createdAt": "2023-12-24T16:40:00Z",
+      "updatedAt": "2025-11-10T16:35:00Z"
     },
     {
       "id": 24,
       "title": "Content Management Systems",
       "body": "Compare popular CMS options like WordPress, Drupal, and headless CMS solutions for different project requirements.",
       "userId": 3,
-      "date": "2023-12-23T13:05:00Z"
+      "createdAt": "2023-12-23T13:05:00Z"
     },
     {
       "id": 25,
       "title": "Search Engine Optimization (SEO)",
       "body": "Improve your website's visibility in search engines with proper meta tags, structured data, performance optimization, and content strategy.",
       "userId": 1,
-      "date": "2023-12-22T10:30:00Z"
+      "createdAt": "2023-12-22T10:30:00Z"
     }
   ],
   "comments": [
@@ -211,7 +215,8 @@
       "name": "John Doe",
       "email": "john@example.com",
       "body": "Great explanation of directives! I've been struggling to understand when to use isolated scope.",
-      "date": "2024-01-15T11:00:00Z"
+      "createdAt": "2024-01-15T11:00:00Z",
+      "updatedAt": "2024-10-11T16:35:00Z"
     },
     {
       "id": 2,
@@ -219,7 +224,8 @@
       "name": "Jane Smith",
       "email": "jane@example.com",
       "body": "This helped me understand the difference between controllers and directives. Thanks!",
-      "date": "2024-01-15T12:30:00Z"
+      "createdAt": "2024-01-15T12:30:00Z",
+      "updatedAt": "2024-09-11T16:35:00Z"
     },
     {
       "id": 3,
@@ -227,7 +233,7 @@
       "name": "Mike Johnson",
       "email": "mike@example.com",
       "body": "ES6 arrow functions have completely changed how I write JavaScript. No more 'this' binding issues!",
-      "date": "2024-01-14T15:45:00Z"
+      "createdAt": "2024-01-14T15:45:00Z"
     },
     {
       "id": 4,
@@ -235,7 +241,7 @@
       "name": "Sarah Wilson",
       "email": "sarah@example.com",
       "body": "I've been using Express for years but still learned some new middleware patterns from this post.",
-      "date": "2024-01-13T10:20:00Z"
+      "createdAt": "2024-01-13T10:20:00Z"
     },
     {
       "id": 5,
@@ -243,7 +249,7 @@
       "name": "Tom Brown",
       "email": "tom@example.com",
       "body": "The Grid vs Flexbox comparison is spot on. I use Grid for overall layout and Flexbox for component layouts.",
-      "date": "2024-01-12T17:30:00Z"
+      "createdAt": "2024-01-12T17:30:00Z"
     },
     {
       "id": 6,
@@ -251,7 +257,7 @@
       "name": "Lisa Chen",
       "email": "lisa@example.com",
       "body": "TypeScript has saved our team so much debugging time. The type safety is invaluable for large projects.",
-      "date": "2024-01-11T12:45:00Z"
+      "createdAt": "2024-01-11T12:45:00Z"
     },
     {
       "id": 7,
@@ -259,7 +265,7 @@
       "name": "David Lee",
       "email": "david@example.com",
       "body": "Performance optimization is often overlooked. These techniques improved our Lighthouse score by 30 points!",
-      "date": "2024-01-10T14:15:00Z"
+      "createdAt": "2024-01-10T14:15:00Z"
     },
     {
       "id": 8,
@@ -267,7 +273,7 @@
       "name": "Emily Davis",
       "email": "emily@example.com",
       "body": "Hooks made React so much cleaner. I can't imagine going back to class components now.",
-      "date": "2024-01-09T09:30:00Z"
+      "createdAt": "2024-01-09T09:30:00Z"
     },
     {
       "id": 9,
@@ -275,7 +281,7 @@
       "name": "Robert Garcia",
       "email": "robert@example.com",
       "body": "Database indexing is crucial for performance. We reduced query times from seconds to milliseconds with proper indexes.",
-      "date": "2024-01-08T16:05:00Z"
+      "createdAt": "2024-01-08T16:05:00Z"
     },
     {
       "id": 10,
@@ -283,14 +289,15 @@
       "name": "Maria Rodriguez",
       "email": "maria@example.com",
       "body": "Mobile-first approach completely changed how we design. It forces you to focus on what's truly important.",
-      "date": "2024-01-07T13:40:00Z"
+      "createdAt": "2024-01-07T13:40:00Z"
     },
     {
       "postId": 8,
       "name": "i love you AI",
       "email": "john@example.com",
-      "body": "i lvooe you",
-      "id": 11
+      "body": "i love you",
+      "id": 11,
+      "createdAt": "2024-01-06T10:00:00Z"
     }
   ],
   "users": [
