@@ -75,12 +75,12 @@ src/
 
 3. **Start the Angular development server:**
    ```bash
-   npm start
+   npm run serve
    ```
    This starts the Angular app on http://localhost:4200
 
 ### Development Commands
-- `npm start` - Start development server
+- `npm run serve` - Start development server
 - `npm run build` - Build for production
 - `npm run server` - Start JSON server
 - `npm test` - Run unit tests
