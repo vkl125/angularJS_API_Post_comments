@@ -37,11 +37,11 @@ src/
 │   │   ├── post-list/           # Main posts listing component
 │   │   │   ├── post-list.component.ts
 │   │   │   ├── post-list.component.html
-│   │   │   └── post-list.component.css
+│   │   │   └── post-list.component.scss
 │   │   └── post-comments/       # Child component for comments
 │   │       ├── post-comments.component.ts
 │   │       ├── post-comments.component.html
-│   │       └── post-comments.component.css
+│   │       └── post-comments.component.scss
 │   ├── models/                  # TypeScript interfaces
 │   │   ├── post.model.ts
 │   │   ├── comment.model.ts
@@ -52,7 +52,7 @@ src/
 │   └── app.module.ts            # Main application module
 ├── index.html
 ├── main.ts
-└── styles.css
+└── styles.scss
 ```
 
 ## Setup Instructions

@@ -215,8 +215,8 @@
       "name": "John Doe",
       "email": "john@example.com",
       "body": "[updated] Great explanation of directives! I've been struggling to understand when to use isolated scope.",
-      "createdAt": "January 15th 2024, 7:00:00 pm",
-      "updatedAt": "2025-11-12T03:38:43.576Z"
+      "createdAt": "Invalid date",
+      "updatedAt": "2025-11-12T03:51:02.323Z"
     },
     {
       "id": 2,

@@ -6,7 +6,7 @@ import { UserService } from '../../services/user.service';
 @Component({
   selector: 'app-post-comments',
   templateUrl: './post-comments.component.html',
-  styleUrls: ['./post-comments.component.css'],
+  styleUrls: ['./post-comments.component.scss'],
   standalone: true,
   imports: [CommonModule]
 })

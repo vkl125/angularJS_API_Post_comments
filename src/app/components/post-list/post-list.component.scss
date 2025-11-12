@@ -1,0 +1,48 @@
+// Import shared variables and mixins
+@import '../../shared/variables';
+@import '../../shared/mixins';
+
+// Component Variables
+$comment-border-color: #007bff;
+$comment-hover-border-color: #0056b3;
+$comment-hover-bg: #f8f9fa;
+
+.comment {
+  border-left: 4px solid $comment-border-color;
+  transition: all $transition-fast ease;
+
+  &:hover {
+    border-left-color: $comment-hover-border-color;
+    background-color: $comment-hover-bg !important;
+  }
+}
+
+.post-card {
+  @include card-shadow;
+  border: none;
+
+  &:hover {
+    box-shadow: $shadow-md;
+  }
+}
+
+.comment-section {
+  border-top: 1px solid #e9ecef;
+  padding-top: $spacing-md;
+}
+
+// Styling for the Open/Collapse All Comments button
+.btn-toggle-all {
+  transition: all $transition-fast ease;
+  @include button-hover-effect;
+}
+
+// CRUD Button Styling
+.btn-group .btn {
+  @include button-hover-effect;
+}
+
+// Add New Post Button
+.btn-primary {
+  @include button-hover-effect;
+}

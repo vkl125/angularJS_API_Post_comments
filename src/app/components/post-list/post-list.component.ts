@@ -13,7 +13,7 @@ import { PostCommentsComponent } from '../post-comments/post-comments.component'
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',
-  styleUrls: ['./post-list.component.css'],
+  styleUrls: ['./post-list.component.scss'],
   standalone: true,
   imports: [CommonModule, PostCommentsComponent]
 })

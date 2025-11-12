@@ -1,0 +1,26 @@
+// Mixins
+@mixin card-shadow {
+  box-shadow: $shadow-sm;
+  transition: transform $transition-fast, box-shadow $transition-fast;
+  
+  &:hover {
+    box-shadow: $shadow-md;
+  }
+}
+
+@mixin button-hover-effect {
+  transition: all $transition-fast;
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: $shadow-sm;
+  }
+}
+
+@mixin responsive($breakpoint) {
+  @if $breakpoint == mobile {
+    @media (max-width: 768px) {
+      @content;
+    }
+  }
+}
