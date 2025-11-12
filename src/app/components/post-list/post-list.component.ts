@@ -232,7 +232,7 @@ export class PostListComponent implements OnInit {
   async onCommentUpdated(comment: Comment): Promise<void> {
     if (comment.id) {
       try {
-        const updatedComment = await this.commentService.updateComment(comment.id, comment);
+        const updatedComment = await this.commentService.updateComment(comment.id, comment).subscribe();
         console.log('Comment updated:', updatedComment);
         this.loadPosts(); // Reload to show updated comment
       } catch (error) {
@@ -244,7 +244,7 @@ export class PostListComponent implements OnInit {
 
   async onCommentDeleted(commentId: number): Promise<void> {
     try {
-      await this.commentService.deleteComment(commentId);
+      await this.commentService.deleteComment(commentId).subscribe();
       console.log('Comment deleted:', commentId);
       this.loadPosts(); // Reload to remove the deleted comment
     } catch (error) {

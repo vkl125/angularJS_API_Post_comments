@@ -3,10 +3,31 @@
     {
       "title": "Understanding Angular Directive",
       "body": "Angular directive are a core feature that allows developers to extend HTML with new attributes and elements This post explores the different types of directives, how to create custom directives, and best practices for using them effectively in your Angular applications.",
-      "updatedAt": "2025-11-12T05:07:17.885Z",
+      "updatedAt": "2025-11-12T13:59:34.170Z",
       "id": 1,
       "userId": 1,
-      "createdAt": "2025-11-12T05:07:17.885Z"
+      "createdAt": "2025-11-12T05:07:17.000Z",
+      "comments": [
+        {
+          "id": 1,
+          "postId": 1,
+          "name": "John Doe",
+          "email": "john@example.com",
+          "body": "[] Great explanation of directives! I've been struggling to understand when to use isolated scope.",
+          "createdAt": "November 12th 2025, 9:32:08 pm",
+          "updatedAt": "November 12th 2025, 9:32:18 pm"
+        },
+        {
+          "id": 2,
+          "postId": 1,
+          "name": "Jane Smith",
+          "email": "jane@example.com",
+          "body": "This helped me understand the difference between controllers and directives. Thanks!",
+          "createdAt": "January 15th 2024, 8:30:00 pm",
+          "updatedAt": "September 12th 2024, 12:35:00 am"
+        }
+      ],
+      "commentsCollapsed": false
     },
     {
       "id": 2,
@@ -188,15 +209,6 @@
     }
   ],
   "comments": [
-    {
-      "id": 1,
-      "postId": 1,
-      "name": "John Doe",
-      "email": "john@example.com",
-      "body": "[] Great explanation of directives! I've been struggling to understand when to use isolated scope.",
-      "createdAt": "2025-11-12T13:32:08.000Z",
-      "updatedAt": "2025-11-12T13:32:18.952Z"
-    },
     {
       "id": 2,
       "postId": 1,

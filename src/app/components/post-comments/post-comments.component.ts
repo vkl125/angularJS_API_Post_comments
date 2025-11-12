@@ -41,13 +41,13 @@ export class PostCommentsComponent {
     this.commentAdded.emit(newComment as Comment);
   }
 
-  async editComment(comment: Comment): Promise<void> {
+  editComment(comment: Comment): void {
     if (!this.canDeleteComment(comment)) {
       alert('You can only edit your own comments.');
       return;
     }
 
-    const updatedComment = {
+    const updatedComment : any = {
       ...comment,
       name: prompt('Enter new name:', comment.name) || comment.name,
       email: prompt('Enter new email:', comment.email) || comment.email,
@@ -57,7 +57,7 @@ export class PostCommentsComponent {
     this.commentUpdated.emit(updatedComment);
   }
 
-  async deleteComment(comment: Comment): Promise<void> {
+  deleteComment(comment: Comment): void {
     if (!this.canDeleteComment(comment)) {
       alert('You can only delete your own comments.');
       return;
