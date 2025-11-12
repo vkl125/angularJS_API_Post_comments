@@ -55,7 +55,7 @@ export class PostListComponent implements OnInit {
     try {
       const response = await this.postService.getPostsWithComments(this.currentPage, this.postsPerPage);
       response.posts.forEach((post: PostWithComments) => {
-        post.commentsCollapsed = true; // Start with comments collapsed
+        post.commentsCollapsed = false; // Start with comments collapsed
       });
       this.postsResponse = response;
       this.pagination = response.pagination;

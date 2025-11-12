@@ -26,18 +26,21 @@ export class CommentService extends BaseService {
     });
   }
 
-  async updateComment(id: number, comment: Partial<Comment>): Promise<void> {
+  updateComment(id: number, comment: Partial<Comment>): Observable<Comment> {
     const commentWithDates = {
       ...comment,
       createdAt: comment.createdAt ? parseDisplayDateToUTC(comment.createdAt) : "",
       updatedAt: createCurrentUTCTimestamp()
     };
-    await this.put<Comment>(`comments/${id}`, commentWithDates).subscribe(() => {
-    });
+
+    return this.put<Comment>(`comments/${id}`, commentWithDates).pipe(
+      rxjsDelay(150)
+    );
   }
 
-  async deleteComment(id: number): Promise<void> {
-    await this.delete<void>(`comments/${id}`).subscribe(() => {
-    });
+  deleteComment(id: number): Observable<void> {
+    return this.delete<void>(`comments/${id}`).pipe(
+      rxjsDelay(150)
+    );
   }
 }
