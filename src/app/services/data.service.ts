@@ -4,7 +4,7 @@ import { Observable, forkJoin, map, delay as rxjsDelay } from 'rxjs';
 import { BaseService } from './base.service';
 import { Post, PostWithComments, CreatePostRequest, UpdatePostRequest } from '../models/post.model';
 import { PaginationInfo, PaginatedResponse } from '../models/pagination.model';
-import * as moment from 'moment';
+import { formatDateForDisplay, getCurrentDateForDisplay, createCurrentUTCTimestamp, parseDisplayDateToUTC } from '../helper/helper';
 
 @Injectable({
   providedIn: 'root'
@@ -28,8 +28,8 @@ export class DataService extends BaseService {
         // Ensure posts have dates, add if missing
         posts = posts.map(post => ({
           ...post,
-          createdAt: post.createdAt ? moment(post.createdAt).local().format("MMMM Do YYYY, h:mm:ss a") : moment().local().format("MMMM Do YYYY, h:mm:ss a"),
-          updatedAt: post.updatedAt ? moment(post.updatedAt).local().format("MMMM Do YYYY, h:mm:ss a") : ""
+          createdAt: post.createdAt ? formatDateForDisplay(post.createdAt) : getCurrentDateForDisplay(),
+          updatedAt: post.updatedAt ? formatDateForDisplay(post.updatedAt) : ""
         }));
         
         // Sort posts by createdAt date (newest first)
@@ -50,8 +50,8 @@ export class DataService extends BaseService {
   createPost(post: CreatePostRequest): Observable<Post> {
     const postWithDates = {
       ...post,
-      createdAt: moment.utc().toISOString(),
-      updatedAt: moment.utc().toISOString()
+      createdAt: createCurrentUTCTimestamp(),
+      updatedAt: createCurrentUTCTimestamp()
     };
 
     return this.post<Post>('posts', postWithDates).pipe(
@@ -62,10 +62,10 @@ export class DataService extends BaseService {
   updatePost(id: number, post: UpdatePostRequest): Observable<Post> {
     const postWithDates = {
       ...post,
-      updatedAt: moment.utc().toISOString(),
-      createdAt: post.createdAt ? moment(post.createdAt, "MMMM Do YYYY, h:mm:ss a").utc().toISOString() : ""
+      updatedAt: createCurrentUTCTimestamp(),
+      createdAt: post.createdAt ? parseDisplayDateToUTC(post.createdAt) : ""
     };
-    moment(postWithDates.createdAt)
+
     return this.put<Post>(`posts/${id}`, postWithDates).pipe(
       rxjsDelay(150) // Simulate API call
     );

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, delay as rxjsDelay, map } from 'rxjs';
 import { BaseService } from './base.service';
 import { Comment } from '../models/comment.model';
-import * as moment from 'moment';
+import { createCurrentUTCTimestamp, parseDisplayDateToUTC } from '../helper/helper';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +18,8 @@ export class CommentService extends BaseService {
   createComment(comment: Partial<Comment>): void {
     const commentWithDates = {
       ...comment,
-      createdAt: moment.utc().toISOString(),
-      updatedAt: moment.utc().toISOString()
+      createdAt: createCurrentUTCTimestamp(),
+      updatedAt: createCurrentUTCTimestamp()
     };
 
     this.post<Comment>('comments', commentWithDates).subscribe(() => {
@@ -29,8 +29,8 @@ export class CommentService extends BaseService {
   async updateComment(id: number, comment: Partial<Comment>): Promise<void> {
     const commentWithDates = {
       ...comment,
-      createdAt: comment.createdAt ? moment(comment.createdAt, "MMMM Do YYYY, h:mm:ss a").utc().toISOString() : "",
-      updatedAt: moment.utc().toISOString()
+      createdAt: comment.createdAt ? parseDisplayDateToUTC(comment.createdAt) : "",
+      updatedAt: createCurrentUTCTimestamp()
     };
     await this.put<Comment>(`comments/${id}`, commentWithDates).subscribe(() => {
     });

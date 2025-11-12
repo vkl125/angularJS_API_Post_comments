@@ -1,4 +1,5 @@
 // Helper utility functions
+import * as moment from 'moment';
 
 export function saveToLocalStorage<T>(key: string, data: T): boolean {
     try {
@@ -28,4 +29,22 @@ export function removeFromLocalStorage(key: string): boolean {
         console.warn(`Failed to remove data from localStorage for key: ${key}`, error);
         return false;
     }
+}
+
+// Date/Time helper functions using moment
+
+export function formatDateForDisplay(date: string | Date): string {
+    return moment(date).local().format("MMMM Do YYYY, h:mm:ss a");
+}
+
+export function getCurrentDateForDisplay(): string {
+    return moment().local().format("MMMM Do YYYY, h:mm:ss a");
+}
+
+export function createCurrentUTCTimestamp(): string {
+    return moment.utc().toISOString();
+}
+
+export function parseDisplayDateToUTC(date: string | Date): string {
+    return moment(date, "MMMM Do YYYY, h:mm:ss a").utc().toISOString();
 }

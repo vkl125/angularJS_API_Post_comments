@@ -7,3 +7,9 @@ export function removeFromLocalStorage(key: string): boolean;
 export function formatDate(date: Date | string): string;
 export function generateId(): number;
 export function validateEmail(email: string): boolean;
+
+// Date/Time helper functions using moment
+export function formatDateForDisplay(date: string | Date): string;
+export function getCurrentDateForDisplay(): string;
+export function createCurrentUTCTimestamp(): string;
+export function parseDisplayDateToUTC(date: string | Date): string;

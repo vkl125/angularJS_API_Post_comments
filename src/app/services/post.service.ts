@@ -4,7 +4,7 @@ import { DataService } from './data.service';
 import { CommentService } from './comment.service';
 import { Post, PostWithComments } from '../models/post.model';
 import { PaginationInfo } from '../models/pagination.model';
-import * as moment from 'moment';
+import { formatDateForDisplay, getCurrentDateForDisplay } from '../helper/helper';
 
 @Injectable({
   providedIn: 'root'
@@ -27,8 +27,8 @@ export class PostService {
         // Ensure comments have proper dates
         const commentsWithDates = comments.map(comment => ({
           ...comment,
-          createdAt: comment.createdAt ? moment(comment.createdAt).local().format("MMMM Do YYYY, h:mm:ss a") : moment().local().format("MMMM Do YYYY, h:mm:ss a"),
-          updatedAt: comment.updatedAt ? moment(comment.updatedAt).local().format("MMMM Do YYYY, h:mm:ss a") : ""
+          createdAt: comment.createdAt ? formatDateForDisplay(comment.createdAt) : getCurrentDateForDisplay(),
+          updatedAt: comment.updatedAt ? formatDateForDisplay(comment.updatedAt) : ""
         }));
 
         const postsWithComments: PostWithComments[] = postsData.data.map(post => ({
