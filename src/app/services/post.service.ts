@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { forkJoin, map, lastValueFrom } from 'rxjs';
+import { Observable, forkJoin, map, delay as rxjsDelay, lastValueFrom } from 'rxjs';
 import { DataService } from './data.service';
 import { CommentService } from './comment.service';
 import { Post, PostWithComments } from '../models/post.model';
 import { PaginationInfo } from '../models/pagination.model';
-import { delay } from '../helper/helper';
 import * as moment from 'moment';
 
 @Injectable({
@@ -18,7 +17,7 @@ export class PostService {
   ) {}
 
   async getPostsWithComments(page: number = 1, limit: number = 20): Promise<{ posts: PostWithComments[], pagination: PaginationInfo }> {
-    await delay(150); // Simulate API call
+    await rxjsDelay(150); // Simulate API call
     
     const observable = forkJoin({
       postsData: this.dataService.getPosts(page, limit),

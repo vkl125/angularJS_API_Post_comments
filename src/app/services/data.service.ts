@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, forkJoin, map, lastValueFrom } from 'rxjs';
+import { Observable, forkJoin, map, delay as rxjsDelay } from 'rxjs';
 import { BaseService } from './base.service';
 import { Post, PostWithComments, CreatePostRequest, UpdatePostRequest } from '../models/post.model';
 import { PaginationInfo, PaginatedResponse } from '../models/pagination.model';
-import { delay } from '../helper/helper';
 import * as moment from 'moment';
 
 @Injectable({
@@ -12,17 +11,16 @@ import * as moment from 'moment';
 })
 export class DataService extends BaseService {
 
-  async getPosts(page: number = 1, limit: number = 20): Promise<PaginatedResponse<Post>> {
-    await delay(100); // Simulate API call
-    
+  getPosts(page: number = 1, limit: number = 20): Observable<PaginatedResponse<Post>> {
     const params = new HttpParams()
       .set('_page', page.toString())
       .set('_limit', limit.toString());
 
-    const observable = this.http.get<Post[]>(`${this.apiUrl}/posts`, { 
+    return this.http.get<Post[]>(`${this.apiUrl}/posts`, { 
       params, 
       observe: 'response' 
     }).pipe(
+      rxjsDelay(100), // Simulate API call
       map(response => {
         let posts = response.body || [];
         const totalCount = parseInt(response.headers.get('X-Total-Count') || '0', 10);
@@ -47,39 +45,34 @@ export class DataService extends BaseService {
         return { data: posts, pagination };
       })
     );
-
-    return lastValueFrom(observable);
   }
 
-  async createPost(post: CreatePostRequest): Promise<Post> {
-    await delay(200); // Simulate API call
-    
+  createPost(post: CreatePostRequest): Observable<Post> {
     const postWithDates = {
       ...post,
       createdAt: moment.utc().toDate(),
       updatedAt: moment.utc().toDate()
     };
 
-    const observable = this.post<Post>('posts', postWithDates);
-    return lastValueFrom(observable);
+    return this.post<Post>('posts', postWithDates).pipe(
+      rxjsDelay(200) // Simulate API call
+    );
   }
 
-  async updatePost(id: number, post: UpdatePostRequest): Promise<Post> {
-    await delay(150); // Simulate API call
-    
+  updatePost(id: number, post: UpdatePostRequest): Observable<Post> {
     const postWithDates = {
       ...post,
       updatedAt: moment.utc().toDate()
     };
 
-    const observable = this.put<Post>(`posts/${id}`, postWithDates);
-    return lastValueFrom(observable);
+    return this.put<Post>(`posts/${id}`, postWithDates).pipe(
+      //rxjsDelay(150) // Simulate API call
+    );
   }
 
-  async deletePost(id: number): Promise<void> {
-    await delay(100); // Simulate API call
-    
-    const observable = this.delete<void>(`posts/${id}`);
-    return lastValueFrom(observable);
+  deletePost(id: number): Observable<void> {
+    return this.delete<void>(`posts/${id}`).pipe(
+      rxjsDelay(100) // Simulate API call
+    );
   }
 }

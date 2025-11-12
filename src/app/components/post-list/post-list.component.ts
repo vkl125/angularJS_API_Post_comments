@@ -138,7 +138,7 @@ export class PostListComponent implements OnInit {
   }
 
   // CRUD Operations
-  async addNewPost(): Promise<void> {
+  addNewPost(): void {
     if (!this.userService.canAddPost()) {
       alert('You must be logged in to create a post.');
       return;
@@ -156,17 +156,19 @@ export class PostListComponent implements OnInit {
       userId: currentUser.id
     };
 
-    try {
-      const createdPost = await this.dataService.createPost(newPost);
-      console.log('Post created:', createdPost);
-      this.loadPosts(); // Reload to show the new post
-    } catch (error) {
-      console.error('Error creating post:', error);
-      alert('Failed to create post. Please try again.');
-    }
+    this.dataService.createPost(newPost).subscribe({
+      next: (createdPost) => {
+        console.log('Post created:', createdPost);
+        this.loadPosts(); // Reload to show the new post
+      },
+      error: (error) => {
+        console.error('Error creating post:', error);
+        alert('Failed to create post. Please try again.');
+      }
+    });
   }
 
-  async editPost(post: PostWithComments): Promise<void> {
+  editPost(post: PostWithComments): void {
     if (!this.userService.canEditPost(post.userId)) {
       alert('You can only edit your own posts.');
       return;
@@ -178,18 +180,20 @@ export class PostListComponent implements OnInit {
     };
 
     if (post.id) {
-      try {
-        const result = await this.dataService.updatePost(post.id, updatedPost);
-        console.log('Post updated:', result);
-        this.loadPosts(); // Reload to show updated post
-      } catch (error) {
-        console.error('Error updating post:', error);
-        alert('Failed to update post. Please try again.');
-      }
+      this.dataService.updatePost(post.id, updatedPost).subscribe({
+        next: (result) => {
+          console.log('Post updated:', result);
+          this.loadPosts(); // Reload to show updated post
+        },
+        error: (error) => {
+          console.error('Error updating post:', error);
+          alert('Failed to update post. Please try again.');
+        }
+      });
     }
   }
 
-  async deletePost(post: PostWithComments): Promise<void> {
+  deletePost(post: PostWithComments): void {
     if (!this.userService.canDeletePost(post.userId)) {
       alert('You can only delete your own posts.');
       return;
@@ -197,14 +201,16 @@ export class PostListComponent implements OnInit {
 
     if (confirm(`Are you sure you want to delete "${post.title}"?`)) {
       if (post.id) {
-        try {
-          await this.dataService.deletePost(post.id);
-          console.log('Post deleted:', post.id);
-          this.loadPosts(); // Reload to remove the deleted post
-        } catch (error) {
-          console.error('Error deleting post:', error);
-          alert('Failed to delete post. Please try again.');
-        }
+        this.dataService.deletePost(post.id).subscribe({
+          next: () => {
+            console.log('Post deleted:', post.id);
+            this.loadPosts(); // Reload to remove the deleted post
+          },
+          error: (error) => {
+            console.error('Error deleting post:', error);
+            alert('Failed to delete post. Please try again.');
+          }
+        });
       }
     }
   }

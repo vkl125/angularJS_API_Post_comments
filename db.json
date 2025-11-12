@@ -1,33 +1,10 @@
 {
   "posts": [
     {
-      "id": 1,
       "title": "Understanding Angular Directive",
       "body": "Angular directive are a core feature that allows developers to extend HTML with new attributes and elements This post explores the different types of directives, how to create custom directives, and best practices for using them effectively in your Angular applications.",
-      "userId": 1,
-      "commentsCollapsed": true,
-      "createdAt": "2024-01-15T10:30:00.000Z",
-      "updatedAt": "2025-11-12T02:36:07.252Z",
-      "comments": [
-        {
-          "id": 1,
-          "postId": 1,
-          "name": "John Doe",
-          "email": "john@example.com",
-          "body": "Great explanation of directives! I've been struggling to understand when to use isolated scope.",
-          "createdAt": "2024-01-15T11:00:00Z",
-          "updatedAt": "2024-10-11T16:35:00Z"
-        },
-        {
-          "id": 2,
-          "postId": 1,
-          "name": "Jane Smith",
-          "email": "jane@example.com",
-          "body": "This helped me understand the difference between controllers and directives. Thanks!",
-          "createdAt": "2024-01-15T12:30:00Z",
-          "updatedAt": "2024-09-11T16:35:00Z"
-        }
-      ]
+      "updatedAt": "2025-11-12T05:07:17.885Z",
+      "id": 1
     },
     {
       "id": 2,
